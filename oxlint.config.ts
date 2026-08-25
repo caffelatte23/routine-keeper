@@ -1,11 +1,9 @@
 import { defineConfig } from 'oxlint';
+import native from 'oxlint-config-universe/native';
+import tsAnalysis from 'oxlint-config-universe/typescript-analysis';
 
 const config = defineConfig({
-  plugins: ['eslint', 'import', 'typescript', 'react'],
-  options: {
-    typeAware: true,
-    typeCheck: true,
-  },
+  extends: [native, tsAnalysis],
 });
 
 export default config;
