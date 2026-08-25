@@ -1,0 +1,8 @@
+{
+  "[typescript][javascript][typescriptreact][javascriptreact]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
+  "editor.formatOnSave": true,
+  "js/ts.experimental.useTsgo": false,
+  "js/ts.tsdk.path": "./node_modules/typescript"
+}
