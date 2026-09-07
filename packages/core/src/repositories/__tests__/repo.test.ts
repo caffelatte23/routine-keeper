@@ -1,21 +1,23 @@
 import path from 'node:path';
-
-import Database from 'better-sqlite3';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
-
+import initSqlJs, { type Database } from 'sql.js';
+import { drizzle } from 'drizzle-orm/sql-js';
+import { migrate } from 'drizzle-orm/sql-js/migrator';
 import { schema } from '../../schema';
 import { EVERY_DAY, WEEKDAYS } from '../../testing/factories';
 import { createRepositories } from '../drizzle';
-
 import type { RepoDeps } from '../types';
 
 const MIGRATIONS = path.join(__dirname, '../../../drizzle');
 
+let SQL: Awaited<ReturnType<typeof initSqlJs>>;
+beforeAll(async () => {
+  SQL = await initSqlJs();
+});
+
 function setup(
   nowValues: number[] = [],
-): { deps: RepoDeps } & ReturnType<typeof createRepositories> {
-  const sqlite = new Database(':memory:');
+): { deps: RepoDeps; sqlite: Database } & ReturnType<typeof createRepositories> {
+  const sqlite = new SQL.Database();
   const db = drizzle(sqlite, { schema });
   migrate(db, { migrationsFolder: MIGRATIONS });
 
@@ -26,7 +28,7 @@ function setup(
     newId: () => `id-${(idn += 1)}`,
     clock: { now: () => nowValues[nowIdx++] ?? 1_000 },
   };
-  return { deps, ...createRepositories(deps) };
+  return { deps, sqlite, ...createRepositories(deps) };
 }
 
 describe('drizzle repositories', () => {
@@ -53,10 +55,7 @@ describe('drizzle repositories', () => {
     const withSteps = routines.withSteps();
     expect(withSteps).toHaveLength(1);
     expect(withSteps[0].activeDays).toEqual(WEEKDAYS);
-    expect(withSteps[0].steps.map((s) => s.name)).toEqual([
-      'ベッドを整える',
-      'ストレッチ',
-    ]);
+    expect(withSteps[0].steps.map((s) => s.name)).toEqual(['ベッドを整える', 'ストレッチ']);
   });
 
   it('activeOn filters by the weekday of the date', () => {
@@ -81,30 +80,26 @@ describe('drizzle repositories', () => {
     routines.addStep({ routineId: weekday.id, name: 'w' });
 
     // 2026-01-03 is a Saturday.
-    const sat = routines.activeOn('2026-01-03');
-    expect(sat.map((r) => r.id)).toEqual([daily.id]);
+    expect(routines.activeOn('2026-01-03').map((r) => r.id)).toEqual([daily.id]);
     // 2026-01-15 is a Thursday.
-    const thu = routines
-      .activeOn('2026-01-15')
-      .map((r) => r.id)
-      .sort();
-    expect(thu).toEqual([daily.id, weekday.id].sort());
+    expect(
+      routines
+        .activeOn('2026-01-15')
+        .map((r) => r.id)
+        .sort(),
+    ).toEqual([daily.id, weekday.id].sort());
   });
 
   it('set() upserts, tombstones, and reactivates a completion', () => {
     const { completions } = setup([10, 20, 30]);
     completions.set('s1', '2026-01-15', true);
-    expect(completions.onDate('2026-01-15').map((c) => c.stepId)).toEqual([
-      's1',
-    ]);
+    expect(completions.onDate('2026-01-15').map((c) => c.stepId)).toEqual(['s1']);
 
     completions.set('s1', '2026-01-15', false);
     expect(completions.onDate('2026-01-15')).toEqual([]);
 
     completions.set('s1', '2026-01-15', true);
-    expect(completions.onDate('2026-01-15').map((c) => c.stepId)).toEqual([
-      's1',
-    ]);
+    expect(completions.onDate('2026-01-15').map((c) => c.stepId)).toEqual(['s1']);
   });
 
   it('keeps at most one completion row per (step, date)', () => {
@@ -140,10 +135,7 @@ describe('drizzle repositories', () => {
     meta.setJson('onboarding.enabledGroups', ['朝', '夜']);
 
     expect(meta.get('profile.userName')).toBe('あかり');
-    expect(meta.getJson<string[]>('onboarding.enabledGroups')).toEqual([
-      '朝',
-      '夜',
-    ]);
+    expect(meta.getJson<string[]>('onboarding.enabledGroups')).toEqual(['朝', '夜']);
     expect(meta.all()).toMatchObject({ 'profile.userName': 'あかり' });
 
     meta.set('profile.userName', 'そら'); // upsert

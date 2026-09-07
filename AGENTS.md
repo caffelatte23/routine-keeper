@@ -47,10 +47,15 @@ apps/mobile/
                   2nd feature needs it
     features/     one folder per product feature (not created yet — add on first real use)
     theme/        design tokens (colors, typography) — app-only, imports react-native
-    db/           expo-sqlite + Drizzle wiring (added in Phase 2)
-    lib/ config/  configured libs / env — add on first real use
-  drizzle/        generated migration SQL (added in Phase 2; committed, bundled)
+    db/           expo-sqlite + Drizzle wiring: client.ts (driver + repos), migrations.ts,
+                  seed.ts (first-run demo data)
+    lib/          small app helpers (e.g. format.ts); config/ — add on first real use
 ```
+
+`shared/stores/routine-store.tsx` is the data provider: `useMigrations` gate → `runSeed()` once →
+`useLiveQuery` over the DB, transformed by `@routine-keeper/core` selectors. It keeps the
+`useRoutineStore()` return shape the screens expect; new consumers should prefer the core
+functions directly.
 
 Import boundaries (convention; lint rule optional):
 
@@ -71,7 +76,8 @@ Contains:
   `deleted` (0/1) for record-level last-write-wins sync later.
 - `repositories/` — `RoutineRepo` / `CompletionRepo` / `MetaRepo` interfaces + a Drizzle-backed
   `createRepositories({ db, clock, newId })`. `db` is an injected sync `BaseSQLiteDatabase` — core
-  never imports `expo-sqlite` (app injects expo-sqlite; tests inject `better-sqlite3`).
+  never imports `expo-sqlite` (app injects expo-sqlite; the integration test injects `sql.js`, a
+  pure-WASM SQLite that needs no native build).
 - `usecases/` — pure functions: `buildTodayTasks`, `computeStepStreak`, `computeGlobalStreak`,
   `buildHeatmap`, `buildMonthStatus`, `decideToggle`.
 - `sync/` — `SyncAdapter` / `AuthProvider` interfaces + `lwwMerge()`. **Shape only, no impl.**
@@ -84,8 +90,24 @@ consumes them at runtime via `@routine-keeper/core/drizzle/migrations`.
 # CI
 
 `.github/workflows/ci.yml` runs on every PR to `master` (and pushes to `master`):
-`pnpm install --frozen-lockfile` → `pnpm lint` → `pnpm -r typecheck` → `pnpm -r test`.
+
+- **verify** — `pnpm install --frozen-lockfile` → `pnpm lint` → `pnpm -r typecheck` → `pnpm -r test`
+- **bundle** — `expo export --platform ios` (proves Metro resolves `@routine-keeper/core`, the
+  `.sql` migration inline-imports, expo-sqlite and drizzle)
+
 Keep these green locally before opening a PR.
+
+`pnpm smoke` (`scripts/smoke.mjs`) is a Playwright web smoke: serves `apps/mobile/dist` with
+cross-origin-isolation headers and drives onboarding → tick all tasks → celebration → reload.
+It is **not in CI yet** — `expo-sqlite`'s web support is alpha and `openDatabaseSync` currently
+throws "Sync operation timeout" under headless Chromium. The `sql.js` integration test in
+`packages/core` is the reliable check for the persistence layer until web SQLite stabilizes.
+
+## Gotchas
+
+- `pnpm-workspace.yaml` sets `dedupePeerDependents: false` so `drizzle-orm` stays a single
+  instance across `packages/core` (sql.js peer) and `apps/mobile` (expo-sqlite peer) — without it
+  their `SQLiteColumn` types stop matching and `db.select().from(coreTable)` fails to typecheck.
 
 # Linting
 

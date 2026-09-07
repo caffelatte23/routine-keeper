@@ -1,8 +1,16 @@
-import { Pressable, ScrollView, Text, View } from 'react-native';
 import { Link } from 'expo-router';
-import { Briefcase, CaretRight, MoonStars, SunHorizon } from 'phosphor-react-native';
+import {
+  Briefcase,
+  CaretRight,
+  MoonStars,
+  SunHorizon,
+} from 'phosphor-react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
+
+import { useRoutines } from '@/shared/stores/routine-store';
 import { useAppTheme } from '@/theme/colors';
-import { routines, type GroupName } from '@/shared/stores/routine-store';
+
+import type { GroupName } from '@routine-keeper/core';
 
 const ICONS: Record<GroupName, typeof SunHorizon> = {
   朝: SunHorizon,
@@ -14,26 +22,51 @@ const GROUP_ORDER: GroupName[] = ['朝', '日中', '夜'];
 
 export default function RoutinesScreen() {
   const { colors } = useAppTheme();
+  const routines = useRoutines();
 
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: colors.bg }}
-      contentInsetAdjustmentBehavior="automatic"
-      contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 12, paddingBottom: 24, gap: 8 }}
+      contentInsetAdjustmentBehavior='automatic'
+      contentContainerStyle={{
+        paddingHorizontal: 20,
+        paddingTop: 12,
+        paddingBottom: 24,
+        gap: 8,
+      }}
     >
-      <Text style={{ fontSize: 12, letterSpacing: 0.6, color: colors.muted, fontFamily: 'NotoSansJP_400Regular' }}>
+      <Text
+        style={{
+          fontSize: 12,
+          letterSpacing: 0.6,
+          color: colors.muted,
+          fontFamily: 'NotoSansJP_400Regular',
+        }}
+      >
         ルーティン
       </Text>
-      <Text style={{ fontSize: 28, fontWeight: '500', fontFamily: 'NotoSansJP_500Medium', color: colors.text, marginBottom: 12 }}>
+      <Text
+        style={{
+          fontSize: 28,
+          fontWeight: '500',
+          fontFamily: 'NotoSansJP_500Medium',
+          color: colors.text,
+          marginBottom: 12,
+        }}
+      >
         すべてのルーティン
       </Text>
 
       {GROUP_ORDER.map((group) => {
         const routine = routines[group];
         const Icon = ICONS[group];
-        const stepCount = routine.steps.length;
+        const stepCount = routine?.steps.length ?? 0;
         return (
-          <Link key={group} href={{ pathname: '/routine/[id]', params: { id: group } }} asChild>
+          <Link
+            key={group}
+            href={{ pathname: '/routine/[id]', params: { id: group } }}
+            asChild
+          >
             <Pressable
               style={{
                 flexDirection: 'row',
@@ -45,13 +78,27 @@ export default function RoutinesScreen() {
                 boxShadow: `0 0 0 1px ${colors.line}`,
               }}
             >
-              <Icon size={24} weight="fill" color={colors.acc} />
+              <Icon size={24} weight='fill' color={colors.acc} />
               <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 16, fontWeight: '500', fontFamily: 'NotoSansJP_500Medium', color: colors.text }}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: '500',
+                    fontFamily: 'NotoSansJP_500Medium',
+                    color: colors.text,
+                  }}
+                >
                   {group}
                 </Text>
-                <Text style={{ fontSize: 13, color: colors.muted, fontFamily: 'NotoSansJP_400Regular', marginTop: 2 }}>
-                  {routine.start}開始 · {stepCount}ステップ
+                <Text
+                  style={{
+                    fontSize: 13,
+                    color: colors.muted,
+                    fontFamily: 'NotoSansJP_400Regular',
+                    marginTop: 2,
+                  }}
+                >
+                  {routine?.start}開始 · {stepCount}ステップ
                 </Text>
               </View>
               <CaretRight size={16} color={colors.dim} />

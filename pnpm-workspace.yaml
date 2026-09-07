@@ -4,6 +4,10 @@ packages:
 
 minimumReleaseAge: 1440
 
+# Keep drizzle-orm a single instance across the workspace — core (sql.js) and
+# apps/mobile (expo-sqlite) pull it in with different optional peers, which would
+# otherwise split its SQLiteColumn types across the package boundary.
+dedupePeerDependents: false
+
 onlyBuiltDependencies:
-  - better-sqlite3
   - esbuild

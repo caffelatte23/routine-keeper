@@ -15,22 +15,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm -r typecheck
+      - run: pnpm -r test
 
-      - name: Install
-        run: pnpm install --frozen-lockfile
-
-      - name: Lint
-        run: pnpm lint
-
-      - name: Typecheck
-        run: pnpm -r typecheck
-
-      - name: Test
-        run: pnpm -r test
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Proves Metro resolves @routine-keeper/core, the .sql migration inline-imports,
+      # expo-sqlite and drizzle — i.e. the app actually bundles.
+      - run: pnpm --filter @routine-keeper/mobile exec expo export --platform ios --output-dir /tmp/export
