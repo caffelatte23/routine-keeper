@@ -2,9 +2,9 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ArrowLeft } from 'phosphor-react-native';
 import { useAppTheme } from '@/theme/colors';
-import { routines, type GroupName } from '@/state/routine-store';
-import { DayChips } from '@/components/day-chip';
-import { StepRow } from '@/components/step-row';
+import { routines, type GroupName } from '@/shared/stores/routine-store';
+import { DayChips } from '@/shared/components/day-chip';
+import { StepRow } from '@/shared/components/step-row';
 
 export default function RoutineEditorScreen() {
   const { colors } = useAppTheme();

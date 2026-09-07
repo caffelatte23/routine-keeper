@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native';
 import { DotsSixVertical } from 'phosphor-react-native';
 import { useAppTheme } from '@/theme/colors';
-import type { RoutineStep } from '@/state/routine-store';
+import type { RoutineStep } from '@/shared/stores/routine-store';
 
 export function StepRow({ step }: { step: RoutineStep }) {
   const { colors } = useAppTheme();

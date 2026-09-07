@@ -2,9 +2,9 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { BellSimple, CaretRight, Repeat, Timer, Trash, X } from 'phosphor-react-native';
 import { useAppTheme } from '@/theme/colors';
-import { useRoutineStore } from '@/state/routine-store';
-import { StatTile } from '@/components/stat-tile';
-import { HeatmapGrid } from '@/components/heatmap-grid';
+import { useRoutineStore } from '@/shared/stores/routine-store';
+import { StatTile } from '@/shared/components/stat-tile';
+import { HeatmapGrid } from '@/shared/components/heatmap-grid';
 
 export default function TaskDetailScreen() {
   const { colors } = useAppTheme();

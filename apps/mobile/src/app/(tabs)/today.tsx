@@ -1,10 +1,10 @@
 import { ScrollView, Text, View } from 'react-native';
 import { Flame, HandSwipeRight } from 'phosphor-react-native';
 import { useAppTheme } from '@/theme/colors';
-import { routines, useRoutineStore, type GroupName } from '@/state/routine-store';
-import { TaskRow } from '@/components/task-row';
-import { ProgressRing } from '@/components/progress-ring';
-import { CelebrationOverlay } from '@/components/celebration-overlay';
+import { routines, useRoutineStore, type GroupName } from '@/shared/stores/routine-store';
+import { TaskRow } from '@/shared/components/task-row';
+import { ProgressRing } from '@/shared/components/progress-ring';
+import { CelebrationOverlay } from '@/shared/components/celebration-overlay';
 
 const GROUP_ORDER: GroupName[] = ['朝', '日中', '夜'];
 const TODAY_LABEL = '2026年8月25日 火曜日';
