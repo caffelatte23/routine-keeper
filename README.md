@@ -1,8 +1,12 @@
 # routine-keeper
 
-A daily-routine tracker mockup built with Expo — Japanese UI, "Loop" design language,
-swipe-to-complete tasks and an animated progress ring. State is in-memory only (no
-backend); this is a design prototype.
+A daily-routine tracker built with Expo — Japanese UI, "Loop" design language,
+swipe-to-complete tasks and an animated progress ring.
+
+Local-first: data lives in on-device SQLite, works with no network. Cloud sync
+(Cloudflare or Google Drive — undecided) and a lightweight Chrome extension are
+planned; the code is structured so neither needs a rewrite. See
+[the foundation plan](~/.claude/plans/wobbly-munching-blum.md) and [AGENTS.md](./AGENTS.md).
 
 ## Stack
 
@@ -10,44 +14,49 @@ backend); this is a design prototype.
 - Expo Router (file-based routing, tabs + form-sheet modals)
 - react-native-reanimated + react-native-gesture-handler
 - phosphor-react-native · @expo-google-fonts (Inter + Noto Sans JP)
-- pnpm · oxlint / oxfmt · jest-expo + @testing-library/react-native
+- expo-sqlite + Drizzle ORM (local persistence — added in Phase 2)
+- pnpm workspace · oxlint / oxfmt · jest-expo + ts-jest
+
+## Layout
+
+```
+apps/mobile/     the Expo app  (@routine-keeper/mobile)
+packages/core/   platform-agnostic domain layer  (@routine-keeper/core) — pure TS
+```
+
+Full policy and file map: [AGENTS.md](./AGENTS.md).
 
 ## Setup
 
 ```sh
-pnpm install
-pnpm start          # Expo dev server
-pnpm android        # expo run:android (dev client)
-pnpm ios            # expo run:ios
-pnpm web            # expo start --web
+pnpm install                       # from repo root
+
+cd apps/mobile
+pnpm start                         # Expo dev server (dev client)
+pnpm web                           # expo start --web
+pnpm android                       # expo run:android
 ```
 
-Native/Expo packages: `npx expo install <pkg>`. Other JS packages: `pnpm add <pkg>`.
+Native/Expo packages: `npx expo install <pkg>` from `apps/mobile/`.
+Other JS packages: `pnpm --filter @routine-keeper/<pkg> add <dep>`.
 
-## Scripts
+## Checks (from repo root)
 
 | Command | What |
 |---|---|
-| `pnpm start` | Expo dev server |
-| `pnpm android` / `pnpm ios` / `pnpm web` | run on a platform |
-| `pnpm test` | jest in watch mode |
-| `npx jest --ci` | one-shot test run |
-| `npx oxlint` | lint |
-| `npx tsc --noEmit` | type-check |
+| `npx oxlint` | lint (both packages) |
+| `pnpm -r typecheck` | `tsc --noEmit` per package |
+| `pnpm -r test` | jest per package |
+| `pnpm --filter @routine-keeper/mobile test -- --ci` | one-shot app tests |
 
-Run `npx oxlint` and `npx tsc --noEmit` before considering a change done.
-
-## Project structure
-
-bullet-proof react layout under `src/` (`app/` routes, `shared/` cross-feature building
-blocks, `features/<feature>/` per feature, `theme/` tokens). Full policy and the current
-file map are in [AGENTS.md](./AGENTS.md).
+Run `npx oxlint` and `pnpm -r typecheck` before considering a change done.
 
 ## Testing
 
-`jest-expo` preset, tests colocated in `__tests__/` next to the code. Note
-`@testing-library/react-native` v14 makes `render` / `renderHook` / `fireEvent` / `act`
-async — always `await` them. Details in [AGENTS.md](./AGENTS.md).
+`apps/mobile` uses the `jest-expo` preset; `packages/core` uses `ts-jest` (node). Tests
+are colocated in `__tests__/` next to the code. Note `@testing-library/react-native` v14
+makes `render` / `renderHook` / `fireEvent` / `act` async — always `await` them. Details in
+[AGENTS.md](./AGENTS.md).
 
 ## License
 

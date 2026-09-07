@@ -37,6 +37,9 @@
         "projectId": "13037122-1140-4c6b-b9a8-57eb6d6c525f"
       }
     },
+    "experiments": {
+      "autolinkingModuleResolution": true
+    },
     "owner": "caffe-dev"
   }
 }
