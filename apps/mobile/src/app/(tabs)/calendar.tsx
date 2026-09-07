@@ -148,7 +148,7 @@ export default function CalendarScreen() {
                 borderRadius: 999,
                 borderWidth: complete ? 0 : 1.5,
                 borderColor: colors.dim,
-                backgroundColor: complete ? colors.acc : 'transparent',
+                backgroundColor: complete ? colors.grow : 'transparent',
               }}
             />
             <Text

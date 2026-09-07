@@ -54,6 +54,8 @@ export function ProgressRing({
         height: size,
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: 999,
+        boxShadow: `0 0 40px 2px ${closed ? colors.growTint : colors.glow}`,
       }}
     >
       <Svg
@@ -74,7 +76,7 @@ export function ProgressRing({
           cy={size / 2}
           r={radius}
           fill='none'
-          stroke={colors.acc}
+          stroke={closed ? colors.grow : colors.acc}
           strokeWidth={stroke}
           strokeLinecap='round'
           strokeDasharray={circumference}
@@ -88,7 +90,7 @@ export function ProgressRing({
             fontSize: size * 0.4,
             lineHeight: size * 0.44,
             letterSpacing: -1,
-            color: closed ? colors.acc : colors.text,
+            color: closed ? colors.grow : colors.text,
           }}
         >
           {done}

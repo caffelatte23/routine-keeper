@@ -1,5 +1,10 @@
-import { Pressable, Text, View } from 'react-native';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import { Pressable, Text } from 'react-native';
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  FadeOut,
+  ZoomIn,
+} from 'react-native-reanimated';
 
 import { useAppTheme } from '@/theme/colors';
 import { fonts } from '@/theme/typography';
@@ -26,16 +31,17 @@ export function CelebrationOverlay({
         backgroundColor: colors.celebTo,
       }}
     >
-      <View
+      <Animated.View
+        entering={ZoomIn.springify().damping(13).delay(80)}
         style={{
-          width: 128,
-          height: 128,
+          width: 132,
+          height: 132,
           borderRadius: 999,
-          borderWidth: 2.5,
-          borderColor: colors.acc,
+          borderWidth: 3,
+          borderColor: colors.grow,
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: `0 0 64px 6px ${colors.glow}`,
+          boxShadow: `0 0 72px 10px ${colors.growTint}`,
           marginBottom: 30,
         }}
       >
@@ -43,8 +49,8 @@ export function CelebrationOverlay({
           style={{
             fontFamily: fonts.figure,
             fontSize: 52,
-            color: colors.acc,
             lineHeight: 56,
+            color: colors.grow,
           }}
         >
           {streakDays}
@@ -59,9 +65,10 @@ export function CelebrationOverlay({
         >
           日つづけて
         </Text>
-      </View>
+      </Animated.View>
 
-      <Text
+      <Animated.Text
+        entering={FadeInDown.duration(320).delay(220)}
         style={{
           fontFamily: fonts.jpMedium,
           fontSize: 24,
@@ -70,8 +77,9 @@ export function CelebrationOverlay({
         }}
       >
         ループが閉じました
-      </Text>
-      <Text
+      </Animated.Text>
+      <Animated.Text
+        entering={FadeInDown.duration(320).delay(300)}
         style={{
           fontFamily: fonts.jp,
           fontSize: 14,
@@ -83,7 +91,7 @@ export function CelebrationOverlay({
         }}
       >
         今日のルーティンをすべて閉じました。
-      </Text>
+      </Animated.Text>
       <Pressable
         onPress={onDismiss}
         hitSlop={16}

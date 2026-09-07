@@ -39,6 +39,8 @@ export function TaskRow({
   const { colors } = useAppTheme();
   const x = useSharedValue(0);
   const context = useSharedValue(0);
+  const pop = useSharedValue(1);
+  const doneRef = useSharedValue(task.done);
 
   useEffect(() => {
     if (hint && !task.done) {
@@ -52,6 +54,18 @@ export function TaskRow({
     // run once on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (task.done && !doneRef.get()) {
+      pop.set(
+        withSequence(
+          withSpring(1.3, { duration: 220 }),
+          withSpring(1, { duration: 320 }),
+        ),
+      );
+    }
+    doneRef.set(task.done);
+  }, [task.done, pop, doneRef]);
 
   const commit = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
@@ -100,6 +114,9 @@ export function TaskRow({
   }));
   const trackStyle = useAnimatedStyle(() => ({
     opacity: Math.min(1, x.get() / SWIPE_THRESHOLD),
+  }));
+  const bulletStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: pop.get() }],
   }));
 
   return (
@@ -153,20 +170,26 @@ export function TaskRow({
             accessibilityState={{ checked: task.done }}
             accessibilityLabel={task.name}
             hitSlop={12}
-            style={{
-              width: 26,
-              height: 26,
-              borderRadius: 999,
-              borderWidth: task.done ? 2 : 1.5,
-              borderColor: task.done ? colors.acc : colors.dim,
-              backgroundColor: task.done ? colors.accTint : 'transparent',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
           >
-            {task.done ? (
-              <Check size={13} weight='bold' color={colors.acc} />
-            ) : null}
+            <Animated.View
+              style={[
+                {
+                  width: 26,
+                  height: 26,
+                  borderRadius: 999,
+                  borderWidth: task.done ? 2 : 1.5,
+                  borderColor: task.done ? colors.grow : colors.dim,
+                  backgroundColor: task.done ? colors.growTint : 'transparent',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                },
+                bulletStyle,
+              ]}
+            >
+              {task.done ? (
+                <Check size={13} weight='bold' color={colors.grow} />
+              ) : null}
+            </Animated.View>
           </Pressable>
 
           <Link
