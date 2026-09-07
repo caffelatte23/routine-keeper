@@ -7,7 +7,7 @@ Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before 
 - Expo SDK ~57.0.16
 - React 19.2.3
 - React Native 0.86.2
-- TypeScript ~6.0.3 (entry point: `expo-router/entry`, routes under `app/`)
+- TypeScript ~6.0.3 (entry point: `expo-router/entry`, routes under `src/app/`)
 - Expo Router ~57.0.16 (file-based navigation: `Tabs` for the bottom nav, `formSheet` presentation for modals)
 - react-native-reanimated 4.5.1 + react-native-gesture-handler ~2.32.0 (swipe-to-complete, animated progress ring)
 - phosphor-react-native (icon set matching the Loop design; note some icons export as `<Name>Icon`, e.g. `CircleIcon`)
@@ -17,11 +17,53 @@ Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before 
 
 # Project Structure
 
+## Design policy (target architecture)
+
+Everything lives under `src/`. The base layout follows **bullet-proof react**
+(https://github.com/alan2207/bullet-proof-react/blob/master/docs/project-structure.md),
+adapted for Expo Router:
+
+```
+src/
+  app/                  Expo Router routes ONLY — thin screens that compose feature modules
+  shared/               cross-feature building blocks (see below)
+  features/
+    <feature>/          one folder per product feature
+      api/              data fetching / store bindings for this feature
+      components/        UI used only by this feature
+      hooks/
+      stores/            feature-local state (Context / store slices)
+      types/
+      utils/
+  lib/                  configured third-party libs (fonts, reanimated setup, etc.)
+  theme/               design tokens (colors, typography) — global by nature
+  config/              env / constants
+```
+
+`src/shared/` holds anything reused across 2+ features and is structured **identically
+to a `features/<feature>/` folder** — same subfolders (`api/`, `components/`, `hooks/`,
+`stores/`, `types/`, `utils/`), just without belonging to a single feature. Put a piece
+in `shared/` only once a second feature needs it; until then it stays feature-local.
+
+Import boundaries (enforced by convention, lint later):
+
+- `features/*` MUST NOT import from another `features/*`. Shared needs go through `src/shared/`.
+- `src/app/*` composes features and shared; nothing imports back from `app/`.
+- `src/shared/*` MUST NOT import from `features/*`.
+
+Expo Router note: `src/app/` is the supported router root when `src/` exists — keep
+`app.json` / entry as-is, just move the route tree. Colocated `_layout.tsx`, `(tabs)/`,
+`[id].tsx`, and `formSheet` presentation all work unchanged under `src/app/`.
+
+## Current layout (pre-migration)
+
+Code still sits at the repo root and is migrated to the above incrementally:
+
 - `app/` — Expo Router routes: `index.tsx` (onboarding), `(tabs)/` (today/routines/calendar/settings), `routine/[id].tsx` and `task/[id].tsx` (form-sheet modals)
-- `components/` — shared UI pieces reused across 2+ screens (task-row, progress-ring, toggle-row, etc.)
-- `state/routine-store.tsx` — in-memory React Context store for tasks/routines/settings (no persistence backend; this is a mockup)
-- `theme/colors.ts` — dark/light palette transcribed from the Claude Design source, keyed off `useColorScheme()`
-- `theme/typography.ts` — Google Fonts loading
+- `components/` — shared UI pieces reused across 2+ screens (task-row, progress-ring, toggle-row, etc.) → becomes `src/shared/components/`
+- `state/routine-store.tsx` — in-memory React Context store for tasks/routines/settings (no persistence backend; this is a mockup) → becomes `src/shared/stores/` or a feature `stores/`
+- `theme/colors.ts` — dark/light palette transcribed from the Claude Design source, keyed off `useColorScheme()` → `src/theme/`
+- `theme/typography.ts` — Google Fonts loading → `src/theme/`
 
 # Linting
 
