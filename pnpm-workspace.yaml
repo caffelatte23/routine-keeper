@@ -3,3 +3,7 @@ packages:
   - packages/*
 
 minimumReleaseAge: 1440
+
+onlyBuiltDependencies:
+  - better-sqlite3
+  - esbuild
