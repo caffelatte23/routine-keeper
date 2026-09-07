@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@expo-google-fonts/inter": "^0.4.2",
+    "@expo-google-fonts/fraunces": "^0.4.1",
     "@expo-google-fonts/noto-sans-jp": "^0.4.3",
     "@routine-keeper/core": "workspace:*",
     "drizzle-orm": "^0.45.2",

@@ -1,7 +1,16 @@
 import { Text, View } from 'react-native';
+
 import { useAppTheme } from '@/theme/colors';
 
-export function StatTile({ value, label, accent }: { value: string; label: string; accent?: boolean }) {
+export function StatTile({
+  value,
+  label,
+  accent,
+}: {
+  value: string;
+  label: string;
+  accent?: boolean;
+}) {
   const { colors } = useAppTheme();
   return (
     <View
@@ -24,7 +33,14 @@ export function StatTile({ value, label, accent }: { value: string; label: strin
       >
         {value}
       </Text>
-      <Text style={{ fontSize: 12, color: colors.muted, fontFamily: 'NotoSansJP_400Regular', marginTop: 2 }}>
+      <Text
+        style={{
+          fontSize: 12,
+          color: colors.muted,
+          fontFamily: 'NotoSansJP_400Regular',
+          marginTop: 2,
+        }}
+      >
         {label}
       </Text>
     </View>

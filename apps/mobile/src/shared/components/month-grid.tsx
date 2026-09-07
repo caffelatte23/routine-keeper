@@ -1,4 +1,5 @@
 import { Text, View } from 'react-native';
+
 import { useAppTheme } from '@/theme/colors';
 
 const WEEK_LABELS = ['月', '火', '水', '木', '金', '土', '日'];
@@ -18,7 +19,13 @@ export function MonthGrid({ cells }: { cells: MonthCell[] }) {
         {WEEK_LABELS.map((w) => (
           <Text
             key={w}
-            style={{ flex: 1, textAlign: 'center', fontSize: 11, color: colors.faint, fontFamily: 'NotoSansJP_400Regular' }}
+            style={{
+              flex: 1,
+              textAlign: 'center',
+              fontSize: 11,
+              color: colors.faint,
+              fontFamily: 'NotoSansJP_400Regular',
+            }}
           >
             {w}
           </Text>
@@ -27,7 +34,13 @@ export function MonthGrid({ cells }: { cells: MonthCell[] }) {
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
         {cells.map((c, i) => {
           const dot =
-            c.status === 'full' ? colors.acc : c.status === 'partial' ? colors.heatPartBorder : c.status === 'missed' ? colors.line : 'transparent';
+            c.status === 'full'
+              ? colors.acc
+              : c.status === 'partial'
+                ? colors.heatPartBorder
+                : c.status === 'missed'
+                  ? colors.line
+                  : 'transparent';
           return (
             <View
               key={i}
@@ -42,10 +55,23 @@ export function MonthGrid({ cells }: { cells: MonthCell[] }) {
                 boxShadow: `0 0 0 1px ${c.isToday ? colors.acc : colors.lineSoft}`,
               }}
             >
-              <Text style={{ fontSize: 13, color: c.future ? colors.dim : colors.t2, fontFamily: 'NotoSansJP_400Regular' }}>
+              <Text
+                style={{
+                  fontSize: 13,
+                  color: c.future ? colors.dim : colors.t2,
+                  fontFamily: 'NotoSansJP_400Regular',
+                }}
+              >
                 {c.day}
               </Text>
-              <View style={{ width: 5, height: 5, borderRadius: 999, backgroundColor: dot }} />
+              <View
+                style={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: 999,
+                  backgroundColor: dot,
+                }}
+              />
             </View>
           );
         })}

@@ -1,44 +1,108 @@
 import { useEffect } from 'react';
-import { View } from 'react-native';
-import Animated, { useAnimatedProps, useSharedValue, withTiming, Easing } from 'react-native-reanimated';
+import { Text, View } from 'react-native';
+import Animated, {
+  Easing,
+  useAnimatedProps,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { Circle, Svg } from 'react-native-svg';
+
 import { useAppTheme } from '@/theme/colors';
+import { fonts } from '@/theme/typography';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-const SIZE = 62;
-const STROKE = 6;
-const RADIUS = (SIZE - STROKE) / 2;
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
-
-export function ProgressRing({ done, total }: { done: number; total: number }) {
+/**
+ * The day's loop. One large ring whose arc is today's progress, the count set
+ * as a figure inside it. This is the hero of the Today screen — it sits in open
+ * space, not in a card.
+ */
+export function ProgressRing({
+  done,
+  total,
+  size = 150,
+}: {
+  done: number;
+  total: number;
+  size?: number;
+}) {
   const { colors } = useAppTheme();
-  const progress = useSharedValue(0);
+  const stroke = size * 0.035;
+  const radius = (size - stroke) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const closed = total > 0 && done >= total;
 
+  const progress = useSharedValue(0);
   useEffect(() => {
-    progress.set(withTiming(total > 0 ? done / total : 0, { duration: 400, easing: Easing.bezier(0.23, 1, 0.32, 1) }));
+    progress.set(
+      withTiming(total > 0 ? done / total : 0, {
+        duration: 520,
+        easing: Easing.bezier(0.22, 1, 0.32, 1),
+      }),
+    );
   }, [done, total, progress]);
 
   const animatedProps = useAnimatedProps(() => ({
-    strokeDashoffset: CIRCUMFERENCE * (1 - progress.get()),
+    strokeDashoffset: circumference * (1 - progress.get()),
   }));
 
   return (
-    <View style={{ width: SIZE, height: SIZE }}>
-      <Svg width={SIZE} height={SIZE} style={{ transform: [{ rotate: '-90deg' }] }}>
-        <Circle cx={SIZE / 2} cy={SIZE / 2} r={RADIUS} fill="none" stroke={colors.line} strokeWidth={STROKE} />
+    <View
+      style={{
+        width: size,
+        height: size,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Svg
+        width={size}
+        height={size}
+        style={{ position: 'absolute', transform: [{ rotate: '-90deg' }] }}
+      >
+        <Circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill='none'
+          stroke={colors.line}
+          strokeWidth={stroke}
+        />
         <AnimatedCircle
-          cx={SIZE / 2}
-          cy={SIZE / 2}
-          r={RADIUS}
-          fill="none"
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill='none'
           stroke={colors.acc}
-          strokeWidth={STROKE}
-          strokeLinecap="round"
-          strokeDasharray={CIRCUMFERENCE}
+          strokeWidth={stroke}
+          strokeLinecap='round'
+          strokeDasharray={circumference}
           animatedProps={animatedProps}
         />
       </Svg>
+      <View style={{ alignItems: 'center' }}>
+        <Text
+          style={{
+            fontFamily: fonts.figure,
+            fontSize: size * 0.34,
+            lineHeight: size * 0.36,
+            color: closed ? colors.acc : colors.text,
+          }}
+        >
+          {done}
+        </Text>
+        <Text
+          style={{
+            fontFamily: fonts.jp,
+            fontSize: size * 0.09,
+            color: colors.faint,
+            marginTop: size * 0.02,
+          }}
+        >
+          / {total}
+        </Text>
+      </View>
     </View>
   );
 }

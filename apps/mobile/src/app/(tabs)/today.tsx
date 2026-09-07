@@ -1,5 +1,5 @@
 import { systemClock, todayIso, type GroupName } from '@routine-keeper/core';
-import { Flame, HandSwipeRight } from 'phosphor-react-native';
+import { Flame } from 'phosphor-react-native';
 import { ScrollView, Text, View } from 'react-native';
 
 import { formatJpDate } from '@/lib/format';
@@ -8,6 +8,7 @@ import { ProgressRing } from '@/shared/components/progress-ring';
 import { TaskRow } from '@/shared/components/task-row';
 import { useRoutines, useRoutineStore } from '@/shared/stores/routine-store';
 import { useAppTheme } from '@/theme/colors';
+import { fonts } from '@/theme/typography';
 
 const GROUP_ORDER: GroupName[] = ['朝', '日中', '夜'];
 
@@ -31,10 +32,9 @@ export default function TodayScreen() {
       <ScrollView
         contentInsetAdjustmentBehavior='automatic'
         contentContainerStyle={{
-          paddingHorizontal: 20,
-          paddingTop: 12,
-          paddingBottom: 24,
-          gap: 0,
+          paddingHorizontal: 22,
+          paddingTop: 14,
+          paddingBottom: 28,
         }}
       >
         <View
@@ -42,25 +42,23 @@ export default function TodayScreen() {
             flexDirection: 'row',
             alignItems: 'flex-start',
             justifyContent: 'space-between',
-            gap: 12,
           }}
         >
-          <View>
+          <View style={{ flex: 1 }}>
             <Text
               style={{
+                fontFamily: fonts.jp,
                 fontSize: 12,
-                letterSpacing: 0.6,
+                letterSpacing: 0.4,
                 color: colors.muted,
-                fontFamily: 'NotoSansJP_400Regular',
               }}
             >
               {todayLabel}
             </Text>
             <Text
               style={{
-                fontSize: 27,
-                fontWeight: '500',
-                fontFamily: 'NotoSansJP_500Medium',
+                fontFamily: fonts.jpMedium,
+                fontSize: 28,
                 color: colors.text,
                 marginTop: 6,
               }}
@@ -68,134 +66,100 @@ export default function TodayScreen() {
               おはよう、{userName}
             </Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 5,
-              paddingHorizontal: 11,
-              paddingVertical: 7,
-              borderRadius: 999,
-              backgroundColor: colors.accTint,
-              boxShadow: `0 0 0 1px ${colors.accBorder}`,
-            }}
-          >
-            <Flame size={15} weight='fill' color={colors.acc} />
-            <Text
+          {streakDays > 0 ? (
+            <View
               style={{
-                fontSize: 13,
-                fontWeight: '500',
-                fontFamily: 'NotoSansJP_500Medium',
-                color: colors.accStrong,
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 4,
+                marginTop: 22,
               }}
             >
-              {streakDays}日
-            </Text>
-          </View>
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 18,
-            marginTop: 24,
-            marginBottom: 8,
-            padding: 18,
-            paddingHorizontal: 20,
-            borderRadius: 14,
-            backgroundColor: colors.surface,
-            boxShadow: `0 0 0 1px ${colors.line}`,
-          }}
-        >
-          <ProgressRing done={doneCount} total={Math.max(tasks.length, 1)} />
-          <View style={{ flex: 1 }}>
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: '500',
-                fontFamily: 'NotoSansJP_500Medium',
-                color: colors.text,
-              }}
-            >
-              {tasks.length}件中 {doneCount}件 完了
-            </Text>
-            <Text
-              style={{
-                fontSize: 13,
-                color: colors.muted,
-                fontFamily: 'NotoSansJP_400Regular',
-                lineHeight: 20,
-                marginTop: 2,
-              }}
-            >
-              {encouragement}
-            </Text>
-          </View>
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 7,
-            marginVertical: 18,
-          }}
-        >
-          <HandSwipeRight size={15} color={colors.faint} />
-          <Text
-            style={{
-              fontSize: 12,
-              color: colors.faint,
-              fontFamily: 'NotoSansJP_400Regular',
-            }}
-          >
-            右にスワイプすると完了になります
-          </Text>
-        </View>
-
-        {GROUP_ORDER.map((group) => {
-          const groupTasks = tasks.filter((t) => t.group === group);
-          if (groupTasks.length === 0) {
-            return null;
-          }
-          return (
-            <View key={group} style={{ marginBottom: 26 }}>
-              <View
+              <Flame size={14} weight='fill' color={colors.acc} />
+              <Text
                 style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 8,
-                  marginBottom: 10,
+                  fontFamily: fonts.figure,
+                  fontSize: 15,
+                  color: colors.t3,
                 }}
               >
-                <Text
+                {streakDays}
+              </Text>
+            </View>
+          ) : null}
+        </View>
+
+        <View style={{ alignItems: 'center', marginTop: 12 }}>
+          <ProgressRing done={doneCount} total={Math.max(tasks.length, 1)} />
+          <Text
+            style={{
+              fontFamily: fonts.jp,
+              fontSize: 13.5,
+              lineHeight: 21,
+              color: colors.muted,
+              textAlign: 'center',
+              marginTop: 18,
+              maxWidth: 260,
+            }}
+          >
+            {encouragement}
+          </Text>
+          {doneCount < tasks.length ? (
+            <Text
+              style={{
+                fontFamily: fonts.jp,
+                fontSize: 11.5,
+                color: colors.faint,
+                marginTop: 8,
+              }}
+            >
+              右にスワイプして閉じる
+            </Text>
+          ) : null}
+        </View>
+
+        <View style={{ marginTop: 14 }}>
+          {GROUP_ORDER.map((group) => {
+            const groupTasks = tasks.filter((t) => t.group === group);
+            if (groupTasks.length === 0) {
+              return null;
+            }
+            return (
+              <View key={group} style={{ marginBottom: 30 }}>
+                <View
                   style={{
-                    fontSize: 13,
-                    color: colors.t3,
-                    fontFamily: 'NotoSansJP_400Regular',
+                    flexDirection: 'row',
+                    alignItems: 'baseline',
+                    justifyContent: 'space-between',
+                    marginBottom: 4,
                   }}
                 >
-                  {group}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: colors.faint,
-                    fontFamily: 'NotoSansJP_400Regular',
-                  }}
-                >
-                  {routines[group]?.window}
-                </Text>
-              </View>
-              <View style={{ gap: 8 }}>
+                  <Text
+                    style={{
+                      fontFamily: fonts.jpMedium,
+                      fontSize: 14,
+                      color: colors.t2,
+                    }}
+                  >
+                    {group}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: fonts.jp,
+                      fontSize: 11.5,
+                      color: colors.faint,
+                    }}
+                  >
+                    {routines[group]?.window}
+                  </Text>
+                </View>
                 {groupTasks.map((task) => (
                   <TaskRow key={task.id} task={task} onToggle={setTaskDone} />
                 ))}
               </View>
-            </View>
-          );
-        })}
+            );
+          })}
+        </View>
       </ScrollView>
 
       {celebrating ? (

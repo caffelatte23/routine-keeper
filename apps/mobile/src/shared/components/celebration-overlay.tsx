@@ -1,7 +1,8 @@
 import { Pressable, Text, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
-import { Flame } from 'phosphor-react-native';
+
 import { useAppTheme } from '@/theme/colors';
+import { fonts } from '@/theme/typography';
 
 export function CelebrationOverlay({
   streakDays,
@@ -13,7 +14,7 @@ export function CelebrationOverlay({
   const { colors } = useAppTheme();
   return (
     <Animated.View
-      entering={FadeIn.duration(220)}
+      entering={FadeIn.duration(240)}
       exiting={FadeOut.duration(180)}
       style={{
         position: 'absolute',
@@ -21,50 +22,82 @@ export function CelebrationOverlay({
         zIndex: 40,
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 40,
+        padding: 44,
         backgroundColor: colors.celebTo,
       }}
     >
       <View
         style={{
-          width: 96,
-          height: 96,
+          width: 128,
+          height: 128,
           borderRadius: 999,
+          borderWidth: 2.5,
+          borderColor: colors.acc,
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: `0 0 0 1px ${colors.acc}, 0 0 60px 8px ${colors.glow}`,
-          marginBottom: 26,
+          boxShadow: `0 0 64px 6px ${colors.glow}`,
+          marginBottom: 30,
         }}
       >
-        <Flame size={44} weight="fill" color={colors.acc} />
+        <Text
+          style={{
+            fontFamily: fonts.figure,
+            fontSize: 52,
+            color: colors.acc,
+            lineHeight: 56,
+          }}
+        >
+          {streakDays}
+        </Text>
+        <Text
+          style={{
+            fontFamily: fonts.jp,
+            fontSize: 11.5,
+            color: colors.faint,
+            marginTop: 2,
+          }}
+        >
+          日つづけて
+        </Text>
       </View>
-      <Text style={{ fontSize: 25, fontWeight: '500', fontFamily: 'NotoSansJP_500Medium', color: colors.text, marginBottom: 10 }}>
+
+      <Text
+        style={{
+          fontFamily: fonts.jpMedium,
+          fontSize: 24,
+          color: colors.text,
+          marginBottom: 10,
+        }}
+      >
         ループが閉じました
       </Text>
       <Text
         style={{
-          fontSize: 15,
+          fontFamily: fonts.jp,
+          fontSize: 14,
+          lineHeight: 24,
           color: colors.t2,
-          fontFamily: 'NotoSansJP_400Regular',
           textAlign: 'center',
-          lineHeight: 26,
-          marginBottom: 30,
+          marginBottom: 34,
+          maxWidth: 280,
         }}
       >
-        今日のルーティンをすべて完了。これで{streakDays}日連続です。
+        今日のルーティンをすべて閉じました。
       </Text>
       <Pressable
         onPress={onDismiss}
-        style={{
-          paddingHorizontal: 30,
-          paddingVertical: 14,
-          minHeight: 48,
-          borderRadius: 14,
-          borderWidth: 1,
-          borderColor: colors.acc,
-        }}
+        hitSlop={16}
+        style={{ minHeight: 44, justifyContent: 'center' }}
       >
-        <Text style={{ fontSize: 15, fontFamily: 'NotoSansJP_500Medium', color: colors.acc }}>閉じる</Text>
+        <Text
+          style={{
+            fontFamily: fonts.jpMedium,
+            fontSize: 15,
+            color: colors.acc,
+          }}
+        >
+          閉じる
+        </Text>
       </Pressable>
     </Animated.View>
   );

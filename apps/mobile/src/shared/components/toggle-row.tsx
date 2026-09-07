@@ -1,7 +1,13 @@
-import { Pressable, Text, View } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming, Easing } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 import { useEffect } from 'react';
+import { Pressable, Text, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+  Easing,
+} from 'react-native-reanimated';
+
 import { useAppTheme } from '@/theme/colors';
 
 const EASE = Easing.bezier(0.23, 1, 0.32, 1);
@@ -40,10 +46,25 @@ export function ToggleRow({
       }}
     >
       <View style={{ flex: 1 }}>
-        <Text style={{ fontSize: 15, fontWeight: '500', fontFamily: 'NotoSansJP_500Medium', color: colors.text }}>
+        <Text
+          style={{
+            fontSize: 15,
+            fontWeight: '500',
+            fontFamily: 'NotoSansJP_500Medium',
+            color: colors.text,
+          }}
+        >
           {name}
         </Text>
-        <Text style={{ fontSize: 12, color: colors.muted, fontFamily: 'NotoSansJP_400Regular', marginTop: 2, lineHeight: 18 }}>
+        <Text
+          style={{
+            fontSize: 12,
+            color: colors.muted,
+            fontFamily: 'NotoSansJP_400Regular',
+            marginTop: 2,
+            lineHeight: 18,
+          }}
+        >
           {detail}
         </Text>
       </View>

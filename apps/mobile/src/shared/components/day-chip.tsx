@@ -1,4 +1,5 @@
 import { Text, View } from 'react-native';
+
 import { useAppTheme } from '@/theme/colors';
 
 const LABELS = ['月', '火', '水', '木', '金', '土', '日'];
