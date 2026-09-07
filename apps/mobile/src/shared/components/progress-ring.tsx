@@ -84,9 +84,10 @@ export function ProgressRing({
       <View style={{ alignItems: 'center' }}>
         <Text
           style={{
-            fontFamily: fonts.figure,
-            fontSize: size * 0.34,
-            lineHeight: size * 0.36,
+            fontFamily: fonts.figureBold,
+            fontSize: size * 0.4,
+            lineHeight: size * 0.44,
+            letterSpacing: -1,
             color: closed ? colors.acc : colors.text,
           }}
         >

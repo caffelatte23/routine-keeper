@@ -1,13 +1,15 @@
 import * as Haptics from 'expo-haptics';
 import { Link } from 'expo-router';
-import { Check, Flame } from 'phosphor-react-native';
-import { useMemo } from 'react';
+import { Check, Flame, HandSwipeRight } from 'phosphor-react-native';
+import { useEffect, useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
+  withSequence,
   withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
@@ -27,13 +29,29 @@ function project(velocity: number, decelerationRate = 0.998) {
 export function TaskRow({
   task,
   onToggle,
+  hint = false,
 }: {
   task: Task;
   onToggle: (id: string, done: boolean) => void;
+  /** Play a one-time swipe-peek on mount (first incomplete row only). */
+  hint?: boolean;
 }) {
   const { colors } = useAppTheme();
   const x = useSharedValue(0);
   const context = useSharedValue(0);
+
+  useEffect(() => {
+    if (hint && !task.done) {
+      x.set(
+        withSequence(
+          withTiming(46, { duration: 620 }),
+          withSpring(0, { duration: 900, dampingRatio: 0.7 }),
+        ),
+      );
+    }
+    // run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const commit = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
@@ -93,13 +111,23 @@ export function TaskRow({
             inset: 0,
             flexDirection: 'row',
             alignItems: 'center',
-            paddingLeft: 6,
+            gap: 8,
+            paddingLeft: 8,
             backgroundColor: colors.accTint,
           },
           trackStyle,
         ]}
       >
         <Check size={18} weight='bold' color={colors.accStrong} />
+        <Text
+          style={{
+            fontFamily: fonts.jpMedium,
+            fontSize: 13,
+            color: colors.accStrong,
+          }}
+        >
+          完了にする
+        </Text>
       </Animated.View>
 
       <GestureDetector gesture={pan}>
@@ -165,15 +193,15 @@ export function TaskRow({
                     marginTop: 3,
                   }}
                 >
-                  <Flame size={12} weight='fill' color={colors.faint} />
+                  <Flame size={12} weight='fill' color={colors.acc} />
                   <Text
                     style={{
-                      fontFamily: fonts.figure,
+                      fontFamily: fonts.jpMedium,
                       fontSize: 12,
-                      color: colors.faint,
+                      color: colors.accStrong,
                     }}
                   >
-                    {task.streak}
+                    {task.streak}日
                   </Text>
                 </View>
               ) : null}
@@ -185,6 +213,13 @@ export function TaskRow({
           >
             {task.time}
           </Text>
+          {task.done ? null : (
+            <HandSwipeRight
+              size={16}
+              color={colors.faint}
+              style={{ marginLeft: 4 }}
+            />
+          )}
         </Animated.View>
       </GestureDetector>
     </View>

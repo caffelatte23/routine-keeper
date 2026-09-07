@@ -2,6 +2,7 @@ import { Tabs } from 'expo-router';
 import { CalendarBlank, GearSix, Repeat, Sun } from 'phosphor-react-native';
 
 import { useAppTheme } from '@/theme/colors';
+import { fonts } from '@/theme/typography';
 
 export default function TabsLayout() {
   const { colors } = useAppTheme();
@@ -13,11 +14,12 @@ export default function TabsLayout() {
         tabBarActiveTintColor: colors.acc,
         tabBarInactiveTintColor: colors.faint,
         tabBarStyle: {
-          backgroundColor: colors.surface2,
+          backgroundColor: colors.bg,
           borderTopWidth: 1,
           borderTopColor: colors.line,
+          elevation: 0,
         },
-        tabBarLabelStyle: { fontSize: 11, fontFamily: 'NotoSansJP_400Regular' },
+        tabBarLabelStyle: { fontSize: 11, fontFamily: fonts.jp },
       }}
     >
       <Tabs.Screen

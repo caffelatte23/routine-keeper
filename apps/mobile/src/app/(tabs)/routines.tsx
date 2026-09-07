@@ -9,6 +9,7 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 
 import { useRoutines } from '@/shared/stores/routine-store';
 import { useAppTheme } from '@/theme/colors';
+import { fonts } from '@/theme/typography';
 
 import type { GroupName } from '@routine-keeper/core';
 
@@ -29,32 +30,20 @@ export default function RoutinesScreen() {
       style={{ flex: 1, backgroundColor: colors.bg }}
       contentInsetAdjustmentBehavior='automatic'
       contentContainerStyle={{
-        paddingHorizontal: 20,
-        paddingTop: 12,
-        paddingBottom: 24,
-        gap: 8,
+        paddingHorizontal: 22,
+        paddingTop: 14,
+        paddingBottom: 28,
       }}
     >
       <Text
         style={{
-          fontSize: 12,
-          letterSpacing: 0.6,
-          color: colors.muted,
-          fontFamily: 'NotoSansJP_400Regular',
+          fontFamily: fonts.jpMedium,
+          fontSize: 28,
+          color: colors.text,
+          marginBottom: 18,
         }}
       >
         ルーティン
-      </Text>
-      <Text
-        style={{
-          fontSize: 28,
-          fontWeight: '500',
-          fontFamily: 'NotoSansJP_500Medium',
-          color: colors.text,
-          marginBottom: 12,
-        }}
-      >
-        すべてのルーティン
       </Text>
 
       {GROUP_ORDER.map((group) => {
@@ -71,20 +60,18 @@ export default function RoutinesScreen() {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                gap: 14,
-                padding: 18,
-                borderRadius: 14,
-                backgroundColor: colors.surface,
-                boxShadow: `0 0 0 1px ${colors.line}`,
+                gap: 16,
+                paddingVertical: 18,
+                borderBottomWidth: 1,
+                borderBottomColor: colors.line,
               }}
             >
-              <Icon size={24} weight='fill' color={colors.acc} />
+              <Icon size={22} weight='regular' color={colors.acc} />
               <View style={{ flex: 1 }}>
                 <Text
                   style={{
+                    fontFamily: fonts.jpMedium,
                     fontSize: 16,
-                    fontWeight: '500',
-                    fontFamily: 'NotoSansJP_500Medium',
                     color: colors.text,
                   }}
                 >
@@ -92,16 +79,18 @@ export default function RoutinesScreen() {
                 </Text>
                 <Text
                   style={{
-                    fontSize: 13,
+                    fontFamily: fonts.jp,
+                    fontSize: 12.5,
                     color: colors.muted,
-                    fontFamily: 'NotoSansJP_400Regular',
-                    marginTop: 2,
+                    marginTop: 3,
                   }}
                 >
-                  {routine?.start}開始 · {stepCount}ステップ
+                  {routine?.start}開始{'    '}
+                  <Text style={{ fontFamily: fonts.figure }}>{stepCount}</Text>
+                  ステップ
                 </Text>
               </View>
-              <CaretRight size={16} color={colors.dim} />
+              <CaretRight size={15} color={colors.dim} />
             </Pressable>
           </Link>
         );
