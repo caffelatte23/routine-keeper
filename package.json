@@ -8,13 +8,15 @@
     "lint": "oxlint",
     "format": "oxfmt",
     "test": "pnpm -r --if-present test",
-    "typecheck": "pnpm -r --if-present typecheck"
+    "typecheck": "pnpm -r --if-present typecheck",
+    "smoke": "node scripts/smoke.mjs"
   },
   "devDependencies": {
     "oxfmt": "^0.65.0",
     "oxlint": "^1.80.0",
     "oxlint-config-universe": "^0.2.0",
     "oxlint-tsgolint": "^7.0.2001",
+    "playwright": "^1.63.0",
     "typescript": "~6.0.3"
   }
 }

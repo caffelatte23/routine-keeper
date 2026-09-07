@@ -17,7 +17,7 @@ function project(velocity: number, decelerationRate = 0.998) {
   return ((velocity / 1000) * decelerationRate) / (1 - decelerationRate);
 }
 
-export function TaskRow({ task, onToggle }: { task: Task; onToggle: (id: number, done: boolean) => void }) {
+export function TaskRow({ task, onToggle }: { task: Task; onToggle: (id: string, done: boolean) => void }) {
   const { colors } = useAppTheme();
   const x = useSharedValue(0);
   const context = useSharedValue(0);
@@ -88,6 +88,9 @@ export function TaskRow({ task, onToggle }: { task: Task; onToggle: (id: number,
             onPress={() => {
               onToggle(task.id, !task.done);
             }}
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: task.done }}
+            accessibilityLabel={task.name}
             hitSlop={10}
             style={{
               width: 26,

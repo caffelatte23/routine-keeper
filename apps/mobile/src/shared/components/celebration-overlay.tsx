@@ -6,11 +6,9 @@ import { useAppTheme } from '@/theme/colors';
 export function CelebrationOverlay({
   streakDays,
   onDismiss,
-  onResetDay,
 }: {
   streakDays: number;
   onDismiss: () => void;
-  onResetDay: () => void;
 }) {
   const { colors } = useAppTheme();
   return (
@@ -53,7 +51,7 @@ export function CelebrationOverlay({
           marginBottom: 30,
         }}
       >
-        7件すべて完了。これで{streakDays}日連続です。
+        今日のルーティンをすべて完了。これで{streakDays}日連続です。
       </Text>
       <Pressable
         onPress={onDismiss}
@@ -67,9 +65,6 @@ export function CelebrationOverlay({
         }}
       >
         <Text style={{ fontSize: 15, fontFamily: 'NotoSansJP_500Medium', color: colors.acc }}>閉じる</Text>
-      </Pressable>
-      <Pressable onPress={onResetDay} style={{ marginTop: 6, minHeight: 44, justifyContent: 'center' }}>
-        <Text style={{ color: colors.muted, fontFamily: 'NotoSansJP_400Regular' }}>一日をリセット</Text>
       </Pressable>
     </Animated.View>
   );
