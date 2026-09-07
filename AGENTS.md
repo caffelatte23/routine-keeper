@@ -64,11 +64,28 @@ Expo Router: `src/app/` is auto-detected as the router root. `@/*` path alias �
 ## `packages/core/` — domain layer
 
 Pure TypeScript, no build step (`main` points at `src/index.ts`; Metro / ts-jest transpile it).
-Populated in **Phase 2**: domain types, Drizzle schema, repository interfaces + Drizzle-backed
-implementations (constructed with an injected DB — no `expo-sqlite` import), pure
-selector/use-case functions, and the `SyncAdapter` seam. Every table carries
-`updatedAt` (epoch ms) + `deleted` (0/1) for record-level last-write-wins sync later.
-Regenerate migrations with `npx drizzle-kit generate` (from `apps/mobile/`) after schema edits.
+Contains:
+
+- `domain/` — entity types (`Routine`, `RoutineStep`, `Completion`, …), `Clock`, ISO-date helpers.
+- `schema/` — Drizzle `sqliteTable` definitions. Every table carries `updatedAt` (epoch ms) +
+  `deleted` (0/1) for record-level last-write-wins sync later.
+- `repositories/` — `RoutineRepo` / `CompletionRepo` / `MetaRepo` interfaces + a Drizzle-backed
+  `createRepositories({ db, clock, newId })`. `db` is an injected sync `BaseSQLiteDatabase` — core
+  never imports `expo-sqlite` (app injects expo-sqlite; tests inject `better-sqlite3`).
+- `usecases/` — pure functions: `buildTodayTasks`, `computeStepStreak`, `computeGlobalStreak`,
+  `buildHeatmap`, `buildMonthStatus`, `decideToggle`.
+- `sync/` — `SyncAdapter` / `AuthProvider` interfaces + `lwwMerge()`. **Shape only, no impl.**
+- `testing/` — factories for tests (not exported from the package entry).
+
+Migrations live in `packages/core/drizzle/` (generated + committed). Regenerate after editing
+`schema/` with `pnpm --filter @routine-keeper/core exec drizzle-kit generate`. `apps/mobile`
+consumes them at runtime via `@routine-keeper/core/drizzle/migrations`.
+
+# CI
+
+`.github/workflows/ci.yml` runs on every PR to `master` (and pushes to `master`):
+`pnpm install --frozen-lockfile` → `pnpm lint` → `pnpm -r typecheck` → `pnpm -r test`.
+Keep these green locally before opening a PR.
 
 # Linting
 
