@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react-native';
-import { RoutineDataProvider, useRoutineStore } from '@/state/routine-store';
+import { RoutineDataProvider, useRoutineStore } from '@/shared/stores/routine-store';
 
 function setup() {
   return renderHook(() => useRoutineStore(), {

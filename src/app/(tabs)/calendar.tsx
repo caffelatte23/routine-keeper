@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { CaretLeft, CaretRight, CheckCircle, CircleDashed, Flame } from 'phosphor-react-native';
 import { useAppTheme } from '@/theme/colors';
-import { MonthGrid, type MonthCell } from '@/components/month-grid';
+import { MonthGrid, type MonthCell } from '@/shared/components/month-grid';
 
 const TODAY_DAY = 25;
 const PARTIAL_DAYS = new Set([3, 9, 14, 17, 22, 24]);

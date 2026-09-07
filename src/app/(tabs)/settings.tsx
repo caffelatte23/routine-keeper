@@ -1,8 +1,8 @@
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { HandHeart } from 'phosphor-react-native';
 import { useAppTheme } from '@/theme/colors';
-import { useRoutineStore } from '@/state/routine-store';
-import { ToggleRow } from '@/components/toggle-row';
+import { useRoutineStore } from '@/shared/stores/routine-store';
+import { ToggleRow } from '@/shared/components/toggle-row';
 
 const TOGGLE_META = [
   { key: 'morning', name: '朝の合図', detail: '6:40に1回、ルーティンが始まる前に' },

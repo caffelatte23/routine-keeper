@@ -5,7 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useAppFonts } from '@/theme/typography';
 import { useAppTheme } from '@/theme/colors';
-import { RoutineDataProvider } from '@/state/routine-store';
+import { RoutineDataProvider } from '@/shared/stores/routine-store';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 

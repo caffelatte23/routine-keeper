@@ -51,19 +51,20 @@ Import boundaries (enforced by convention, lint later):
 - `src/app/*` composes features and shared; nothing imports back from `app/`.
 - `src/shared/*` MUST NOT import from `features/*`.
 
-Expo Router note: `src/app/` is the supported router root when `src/` exists — keep
-`app.json` / entry as-is, just move the route tree. Colocated `_layout.tsx`, `(tabs)/`,
-`[id].tsx`, and `formSheet` presentation all work unchanged under `src/app/`.
+Expo Router note: `src/app/` is auto-detected as the router root because there is no
+root-level `app/`. `main` stays `expo-router/entry`; `app.json` is unchanged. Colocated
+`_layout.tsx`, `(tabs)/`, `[id].tsx`, and `formSheet` presentation all work under
+`src/app/`. The `@/*` path alias points at `./src/*` (see `tsconfig.json`).
 
-## Current layout (pre-migration)
+## Current layout
 
-Code still sits at the repo root and is migrated to the above incrementally:
-
-- `app/` — Expo Router routes: `index.tsx` (onboarding), `(tabs)/` (today/routines/calendar/settings), `routine/[id].tsx` and `task/[id].tsx` (form-sheet modals)
-- `components/` — shared UI pieces reused across 2+ screens (task-row, progress-ring, toggle-row, etc.) → becomes `src/shared/components/`
-- `state/routine-store.tsx` — in-memory React Context store for tasks/routines/settings (no persistence backend; this is a mockup) → becomes `src/shared/stores/` or a feature `stores/`
-- `theme/colors.ts` — dark/light palette transcribed from the Claude Design source, keyed off `useColorScheme()` → `src/theme/`
-- `theme/typography.ts` — Google Fonts loading → `src/theme/`
+- `src/app/` — Expo Router routes: `index.tsx` (onboarding), `(tabs)/` (today/routines/calendar/settings), `routine/[id].tsx` and `task/[id].tsx` (form-sheet modals)
+- `src/shared/components/` — UI pieces reused across 2+ screens (task-row, progress-ring, toggle-row, etc.)
+- `src/shared/stores/routine-store.tsx` — in-memory React Context store for tasks/routines/settings (no persistence backend; this is a mockup)
+- `src/theme/colors.ts` — dark/light palette transcribed from the Claude Design source, keyed off `useColorScheme()`
+- `src/theme/typography.ts` — Google Fonts loading
+- `src/features/`, `src/lib/`, `src/config/` — not created yet; add on first real use per the policy above
+- `assets/` stays at repo root (app icons / splash referenced by `app.json`, not imported by code)
 
 # Linting
 
@@ -82,8 +83,8 @@ Run tests with `npx jest --ci` (non-watch, for one-shot verification) or `pnpm t
 Conventions:
 
 - Name test files `*.test.ts` / `*.test.tsx`.
-- Colocate tests in a `__tests__/` directory next to the code under test (e.g. `state/__tests__/routine-store.test.tsx`, `components/__tests__/task-row.test.tsx`) rather than one root-level `__tests__` directory — this project's modules are small and feature-scoped.
+- Colocate tests in a `__tests__/` directory next to the code under test (e.g. `src/shared/stores/__tests__/routine-store.test.tsx`, `src/shared/components/__tests__/task-row.test.tsx`) rather than one root-level `__tests__` directory — this project's modules are small and feature-scoped.
 - Snapshots land in `__tests__/__snapshots__/` automatically; don't hand-write them.
-- Prioritize `state/routine-store.tsx` (pure state transitions: `setTaskDone`, `toggleTask`, `resetDay`, `toggleSetting`) and presentational components over screens under `app/`, since screens are mostly composition and are already covered by the build/lint verification described above.
+- Prioritize `src/shared/stores/routine-store.tsx` (pure state transitions: `setTaskDone`, `toggleTask`, `resetDay`, `toggleSetting`) and presentational components over screens under `src/app/`, since screens are mostly composition and are already covered by the build/lint verification described above.
 
 `@testing-library/react-native` is v14, which made `render`, `renderHook`, `fireEvent`, and `act` all return Promises (React 19's async rendering model) — always `await` them, or `result.current` silently stays `undefined`. See `node_modules/@testing-library/react-native/docs/guides/migration-v14.md` if something that looks right isn't updating.

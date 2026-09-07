@@ -7,7 +7,7 @@ import * as Haptics from 'expo-haptics';
 import { Check, DotsThreeVertical } from 'phosphor-react-native';
 import { Link } from 'expo-router';
 import { useAppTheme } from '@/theme/colors';
-import type { Task } from '@/state/routine-store';
+import type { Task } from '@/shared/stores/routine-store';
 
 const SWIPE_THRESHOLD = 80;
 const MAX_DRAG = 150;

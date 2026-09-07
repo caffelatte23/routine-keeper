@@ -39,8 +39,9 @@ Run `npx oxlint` and `npx tsc --noEmit` before considering a change done.
 
 ## Project structure
 
-Target architecture (bullet-proof react under `src/`, migrated incrementally) and the
-current pre-migration layout are both documented in [AGENTS.md](./AGENTS.md).
+bullet-proof react layout under `src/` (`app/` routes, `shared/` cross-feature building
+blocks, `features/<feature>/` per feature, `theme/` tokens). Full policy and the current
+file map are in [AGENTS.md](./AGENTS.md).
 
 ## Testing
 

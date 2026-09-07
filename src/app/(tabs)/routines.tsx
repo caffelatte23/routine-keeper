@@ -2,7 +2,7 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 import { Link } from 'expo-router';
 import { Briefcase, CaretRight, MoonStars, SunHorizon } from 'phosphor-react-native';
 import { useAppTheme } from '@/theme/colors';
-import { routines, type GroupName } from '@/state/routine-store';
+import { routines, type GroupName } from '@/shared/stores/routine-store';
 
 const ICONS: Record<GroupName, typeof SunHorizon> = {
   朝: SunHorizon,
