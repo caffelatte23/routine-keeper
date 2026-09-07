@@ -1,28 +1,19 @@
 import {
-  useFonts,
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-} from '@expo-google-fonts/inter';
-import {
   NotoSansJP_400Regular,
   NotoSansJP_500Medium,
 } from '@expo-google-fonts/noto-sans-jp';
+import { useFonts } from 'expo-font';
 
-export const fontFamily = {
-  regular: 'NotoSansJP_400Regular',
-  medium: 'NotoSansJP_500Medium',
-  interRegular: 'Inter_400Regular',
-  interMedium: 'Inter_500Medium',
-  interSemiBold: 'Inter_600SemiBold',
-};
+// One family: Noto Sans JP. `figure` is an alias used for numbers (streaks,
+// counts, dates) so they can be given their own treatment later without
+// touching call sites.
+export const fonts = {
+  jp: 'NotoSansJP_400Regular',
+  jpMedium: 'NotoSansJP_500Medium',
+  figure: 'NotoSansJP_500Medium',
+  figureBold: 'NotoSansJP_500Medium',
+} as const;
 
 export function useAppFonts() {
-  return useFonts({
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    NotoSansJP_400Regular,
-    NotoSansJP_500Medium,
-  });
+  return useFonts({ NotoSansJP_400Regular, NotoSansJP_500Medium });
 }

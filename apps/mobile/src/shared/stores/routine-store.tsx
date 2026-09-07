@@ -44,6 +44,7 @@ import { runSeed } from '@/db/seed';
 
 const HISTORY_DAYS = 60;
 const HEATMAP_DAYS = 28;
+const RHYTHM_DAYS = 14;
 
 const ENCOURAGEMENTS = [
   '新しい一日。いちばん軽いものから始めましょう。',
@@ -65,6 +66,7 @@ export interface Task {
   group: GroupName;
   name: string;
   time: string;
+  mins: string;
   streak: number;
   done: boolean;
 }
@@ -101,6 +103,7 @@ interface RoutineStore {
   celebrating: boolean;
   encouragement: string;
   heatPattern: number[];
+  rhythm: number[];
   settings: ReminderSettings;
   userName: string;
   onboarded: boolean;
@@ -204,6 +207,7 @@ export function RoutineDataProvider({ children }: { children: ReactNode }) {
         group: t.group,
         name: t.step.name,
         time: t.time,
+        mins: t.step.minsLabel,
         streak: t.streak,
         done: t.done,
       })),
@@ -338,6 +342,12 @@ export function RoutineDataProvider({ children }: { children: ReactNode }) {
         completions,
         endDate: today,
         days: HEATMAP_DAYS,
+      }),
+      rhythm: buildHeatmap({
+        routines,
+        completions,
+        endDate: today,
+        days: RHYTHM_DAYS,
       }),
       settings,
       userName: metaMap[META_KEYS.userName] ?? 'あかり',

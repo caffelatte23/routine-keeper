@@ -1,11 +1,5 @@
 import { systemClock, todayIso, type GroupName } from '@routine-keeper/core';
-import {
-  CaretLeft,
-  CaretRight,
-  CheckCircle,
-  CircleDashed,
-  Flame,
-} from 'phosphor-react-native';
+import { CaretLeft, CaretRight, Flame } from 'phosphor-react-native';
 import { useMemo } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
@@ -13,6 +7,7 @@ import { formatJpDate } from '@/lib/format';
 import { MonthGrid, type MonthCell } from '@/shared/components/month-grid';
 import { useRoutineStore } from '@/shared/stores/routine-store';
 import { useAppTheme } from '@/theme/colors';
+import { fonts } from '@/theme/typography';
 
 const GROUP_ORDER: GroupName[] = ['朝', '日中', '夜'];
 
@@ -58,9 +53,9 @@ export default function CalendarScreen() {
       style={{ flex: 1, backgroundColor: colors.bg }}
       contentInsetAdjustmentBehavior='automatic'
       contentContainerStyle={{
-        paddingHorizontal: 20,
-        paddingTop: 12,
-        paddingBottom: 24,
+        paddingHorizontal: 22,
+        paddingTop: 14,
+        paddingBottom: 28,
       }}
     >
       <View
@@ -68,148 +63,116 @@ export default function CalendarScreen() {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginBottom: 26,
+          marginBottom: 24,
         }}
       >
-        <View>
+        <Text
+          style={{
+            fontFamily: fonts.jpMedium,
+            fontSize: 28,
+            color: colors.text,
+          }}
+        >
+          {month1}月
           <Text
             style={{
-              fontSize: 12,
-              letterSpacing: 0.6,
-              color: colors.muted,
-              fontFamily: 'NotoSansJP_400Regular',
+              fontFamily: fonts.figure,
+              fontSize: 15,
+              color: colors.faint,
             }}
           >
-            {year}年
+            {' '}
+            {year}
           </Text>
-          <Text
-            style={{
-              fontSize: 28,
-              fontWeight: '500',
-              fontFamily: 'NotoSansJP_500Medium',
-              color: colors.text,
-              marginTop: 6,
-            }}
-          >
-            {month1}月
-          </Text>
-        </View>
-        <View style={{ flexDirection: 'row', gap: 8 }}>
-          <Pressable
-            style={{
-              width: 38,
-              height: 38,
-              borderRadius: 10,
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: `0 0 0 1px ${colors.line}`,
-            }}
-          >
-            <CaretLeft size={16} color={colors.t3} />
+        </Text>
+        <View style={{ flexDirection: 'row', gap: 20 }}>
+          <Pressable hitSlop={12}>
+            <CaretLeft size={18} color={colors.t3} />
           </Pressable>
-          <Pressable
-            style={{
-              width: 38,
-              height: 38,
-              borderRadius: 10,
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: `0 0 0 1px ${colors.line}`,
-            }}
-          >
-            <CaretRight size={16} color={colors.t3} />
+          <Pressable hitSlop={12}>
+            <CaretRight size={18} color={colors.t3} />
           </Pressable>
         </View>
       </View>
 
-      <View style={{ marginBottom: 26 }}>
-        <MonthGrid cells={cells} />
-      </View>
+      <MonthGrid cells={cells} />
 
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          gap: 16,
-          padding: 18,
-          borderRadius: 14,
-          backgroundColor: colors.surface,
-          boxShadow: `0 0 0 1px ${colors.line}`,
-          marginBottom: 20,
+          gap: 9,
+          marginTop: 26,
+          marginBottom: 8,
         }}
       >
-        <Flame size={28} weight='fill' color={colors.acc} />
-        <View style={{ flex: 1 }}>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: '500',
-              fontFamily: 'NotoSansJP_500Medium',
-              color: colors.text,
-            }}
-          >
-            今月は{fullDays}日すべて完了
-          </Text>
-          <Text
-            style={{
-              fontSize: 13,
-              color: colors.muted,
-              fontFamily: 'NotoSansJP_400Regular',
-              marginTop: 2,
-            }}
-          >
-            小さく積み重ねていきましょう。
-          </Text>
-        </View>
+        <Flame size={18} weight='fill' color={colors.acc} />
+        <Text style={{ fontFamily: fonts.jp, fontSize: 14, color: colors.t2 }}>
+          すべて閉じた日は今月{' '}
+          <Text style={{ fontFamily: fonts.figure, color: colors.text }}>
+            {fullDays}
+          </Text>{' '}
+          日
+        </Text>
       </View>
 
       <Text
         style={{
+          fontFamily: fonts.jp,
           fontSize: 13,
           color: colors.t3,
-          fontFamily: 'NotoSansJP_400Regular',
-          marginBottom: 10,
+          marginTop: 22,
+          marginBottom: 4,
         }}
       >
         {formatJpDate(today)}
       </Text>
-      <View style={{ gap: 8 }}>
-        {byGroup.map(({ group, total, done }) => {
-          const complete = done >= total;
-          return (
+      {byGroup.map(({ group, total, done }) => {
+        const complete = done >= total;
+        return (
+          <View
+            key={group}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 14,
+              paddingVertical: 15,
+              borderBottomWidth: 1,
+              borderBottomColor: colors.line,
+            }}
+          >
             <View
-              key={group}
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 12,
-                padding: 14,
-                minHeight: 50,
-                borderRadius: 14,
-                backgroundColor: colors.surface,
-                boxShadow: `0 0 0 1px ${colors.line}`,
+                width: 18,
+                height: 18,
+                borderRadius: 999,
+                borderWidth: complete ? 0 : 1.5,
+                borderColor: colors.dim,
+                backgroundColor: complete ? colors.acc : 'transparent',
+              }}
+            />
+            <Text
+              style={{
+                flex: 1,
+                fontFamily: fonts.jp,
+                fontSize: 14.5,
+                color: complete ? colors.muted : colors.text,
               }}
             >
-              {complete ? (
-                <CheckCircle size={20} weight='fill' color={colors.acc} />
-              ) : (
-                <CircleDashed size={20} color={colors.acc} />
-              )}
-              <Text
-                style={{
-                  flex: 1,
-                  fontSize: 14,
-                  color: complete ? colors.muted : colors.text,
-                  fontFamily: 'NotoSansJP_400Regular',
-                  textDecorationLine: complete ? 'line-through' : 'none',
-                }}
-              >
-                {group} — {total}件中{done}件
-              </Text>
-            </View>
-          );
-        })}
-      </View>
+              {group}
+            </Text>
+            <Text
+              style={{
+                fontFamily: fonts.figure,
+                fontSize: 14,
+                color: colors.t3,
+              }}
+            >
+              {done} / {total}
+            </Text>
+          </View>
+        );
+      })}
     </ScrollView>
   );
 }

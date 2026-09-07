@@ -1,37 +1,40 @@
 import { Text, View } from 'react-native';
+
 import { useAppTheme } from '@/theme/colors';
+import { fonts } from '@/theme/typography';
 
 const LABELS = ['月', '火', '水', '木', '金', '土', '日'];
 
 export function DayChips({ days }: { days: boolean[] }) {
   const { colors } = useAppTheme();
   return (
-    <View style={{ flexDirection: 'row', gap: 6 }}>
+    <View style={{ flexDirection: 'row' }}>
       {LABELS.map((label, i) => {
         const on = days[i];
         return (
-          <View
-            key={label}
-            style={{
-              flex: 1,
-              height: 44,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 10,
-              backgroundColor: on ? colors.accTint : 'transparent',
-              boxShadow: `0 0 0 1px ${on ? colors.accBorder : colors.line}`,
-            }}
-          >
-            <Text
+          <View key={label} style={{ flex: 1, alignItems: 'center' }}>
+            <View
               style={{
-                fontSize: 14,
-                fontWeight: '500',
-                fontFamily: 'NotoSansJP_500Medium',
-                color: on ? colors.accStrong : colors.faint,
+                width: 36,
+                height: 36,
+                borderRadius: 999,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderWidth: on ? 0 : 1,
+                borderColor: colors.line,
+                backgroundColor: on ? colors.acc : 'transparent',
               }}
             >
-              {label}
-            </Text>
+              <Text
+                style={{
+                  fontFamily: fonts.jpMedium,
+                  fontSize: 13,
+                  color: on ? colors.onAcc : colors.faint,
+                }}
+              >
+                {label}
+              </Text>
+            </View>
           </View>
         );
       })}

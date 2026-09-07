@@ -1,18 +1,18 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import {
-  BellSimple,
-  CaretRight,
-  Repeat,
-  Timer,
-  Trash,
-  X,
-} from 'phosphor-react-native';
+import { CaretRight, Trash, X } from 'phosphor-react-native';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
 import { HeatmapGrid } from '@/shared/components/heatmap-grid';
 import { StatTile } from '@/shared/components/stat-tile';
 import { useRoutineStore } from '@/shared/stores/routine-store';
 import { useAppTheme } from '@/theme/colors';
+import { fonts } from '@/theme/typography';
+
+const INFO_ROWS = [
+  { label: '繰り返し', value: '毎日' },
+  { label: '通知', value: '20:45' },
+  { label: '目安の時間', value: '25分' },
+];
 
 export default function TaskDetailScreen() {
   const { colors } = useAppTheme();
@@ -29,9 +29,9 @@ export default function TaskDetailScreen() {
       style={{ flex: 1, backgroundColor: colors.bg }}
       contentInsetAdjustmentBehavior='automatic'
       contentContainerStyle={{
-        paddingHorizontal: 20,
-        paddingTop: 20,
-        paddingBottom: 40,
+        paddingHorizontal: 22,
+        paddingTop: 18,
+        paddingBottom: 44,
       }}
     >
       <View
@@ -39,194 +39,141 @@ export default function TaskDetailScreen() {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginBottom: 22,
+          marginBottom: 20,
         }}
       >
         <Pressable
           onPress={() => {
             router.back();
           }}
-          hitSlop={10}
+          hitSlop={12}
         >
           <X size={22} color={colors.t3} />
         </Pressable>
-        <Pressable hitSlop={10}>
-          <Trash size={20} color={colors.faint} />
+        <Pressable hitSlop={12}>
+          <Trash size={19} color={colors.faint} />
         </Pressable>
       </View>
 
       <Text
-        style={{
-          fontSize: 12,
-          letterSpacing: 0.6,
-          color: colors.muted,
-          fontFamily: 'NotoSansJP_400Regular',
-        }}
+        style={{ fontFamily: fonts.jp, fontSize: 12.5, color: colors.muted }}
       >
-        {detail.group} · {detail.time}
+        {detail.group}
+        {'   '}
+        {detail.time}
       </Text>
       <Text
         style={{
-          fontSize: 28,
-          fontWeight: '500',
-          fontFamily: 'NotoSansJP_500Medium',
+          fontFamily: fonts.jpMedium,
+          fontSize: 27,
           color: colors.text,
           marginTop: 6,
-          marginBottom: 24,
+          marginBottom: 26,
         }}
       >
         {detail.name}
       </Text>
 
-      <View style={{ flexDirection: 'row', gap: 10, marginBottom: 24 }}>
-        <StatTile value={String(detail.streak)} label='日連続' accent />
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'flex-start',
+          marginBottom: 30,
+        }}
+      >
+        <StatTile value={String(detail.streak)} label='日つづけて' accent />
+        <View
+          style={{
+            width: 1,
+            alignSelf: 'stretch',
+            backgroundColor: colors.line,
+            marginHorizontal: 14,
+          }}
+        />
         <StatTile value='86%' label='過去30日' />
+        <View
+          style={{
+            width: 1,
+            alignSelf: 'stretch',
+            backgroundColor: colors.line,
+            marginHorizontal: 14,
+          }}
+        />
         <StatTile value='31' label='最長記録' />
       </View>
 
       <Text
         style={{
+          fontFamily: fonts.jp,
           fontSize: 13,
           color: colors.t3,
-          fontFamily: 'NotoSansJP_400Regular',
-          marginBottom: 12,
+          marginBottom: 14,
         }}
       >
         過去4週間
       </Text>
-      <View style={{ marginBottom: 28 }}>
-        <HeatmapGrid pattern={detail.heat} />
-      </View>
+      <HeatmapGrid pattern={detail.heat} />
 
-      <View style={{ gap: 8, marginBottom: 24 }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 14,
-            padding: 15,
-            minHeight: 52,
-            borderRadius: 14,
-            backgroundColor: colors.surface,
-            boxShadow: `0 0 0 1px ${colors.line}`,
-          }}
-        >
-          <Repeat size={20} color={colors.acc} />
-          <Text
+      <View style={{ marginTop: 30, marginBottom: 26 }}>
+        {INFO_ROWS.map((row) => (
+          <View
+            key={row.label}
             style={{
-              flex: 1,
-              fontSize: 15,
-              color: colors.text,
-              fontFamily: 'NotoSansJP_400Regular',
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingVertical: 15,
+              borderBottomWidth: 1,
+              borderBottomColor: colors.line,
             }}
           >
-            繰り返し
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              color: colors.muted,
-              fontFamily: 'NotoSansJP_400Regular',
-            }}
-          >
-            毎日
-          </Text>
-          <CaretRight size={16} color={colors.dim} />
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 14,
-            padding: 15,
-            minHeight: 52,
-            borderRadius: 14,
-            backgroundColor: colors.surface,
-            boxShadow: `0 0 0 1px ${colors.line}`,
-          }}
-        >
-          <BellSimple size={20} color={colors.acc} />
-          <Text
-            style={{
-              flex: 1,
-              fontSize: 15,
-              color: colors.text,
-              fontFamily: 'NotoSansJP_400Regular',
-            }}
-          >
-            通知
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              color: colors.muted,
-              fontFamily: 'NotoSansJP_400Regular',
-            }}
-          >
-            20:45
-          </Text>
-          <CaretRight size={16} color={colors.dim} />
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 14,
-            padding: 15,
-            minHeight: 52,
-            borderRadius: 14,
-            backgroundColor: colors.surface,
-            boxShadow: `0 0 0 1px ${colors.line}`,
-          }}
-        >
-          <Timer size={20} color={colors.acc} />
-          <Text
-            style={{
-              flex: 1,
-              fontSize: 15,
-              color: colors.text,
-              fontFamily: 'NotoSansJP_400Regular',
-            }}
-          >
-            目安の時間
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              color: colors.muted,
-              fontFamily: 'NotoSansJP_400Regular',
-            }}
-          >
-            25分
-          </Text>
-          <CaretRight size={16} color={colors.dim} />
-        </View>
+            <Text
+              style={{
+                flex: 1,
+                fontFamily: fonts.jp,
+                fontSize: 15,
+                color: colors.text,
+              }}
+            >
+              {row.label}
+            </Text>
+            <Text
+              style={{
+                fontFamily: fonts.jp,
+                fontSize: 14,
+                color: colors.t3,
+                marginRight: 8,
+              }}
+            >
+              {row.value}
+            </Text>
+            <CaretRight size={15} color={colors.dim} />
+          </View>
+        ))}
       </View>
 
       <View
         style={{
-          padding: 16,
-          borderRadius: 14,
-          backgroundColor: colors.surface2,
-          boxShadow: `0 0 0 1px ${colors.line}`,
+          padding: 18,
+          borderRadius: 16,
+          backgroundColor: colors.surface,
         }}
       >
         <Text
           style={{
+            fontFamily: fonts.jp,
             fontSize: 12,
             color: colors.muted,
-            fontFamily: 'NotoSansJP_400Regular',
-            marginBottom: 6,
+            marginBottom: 8,
           }}
         >
           自分へのメモ
         </Text>
         <Text
           style={{
+            fontFamily: fonts.jp,
             fontSize: 14,
-            color: colors.t2,
-            fontFamily: 'NotoSansJP_400Regular',
             lineHeight: 24,
+            color: colors.t2,
           }}
         >
           窓際の椅子に座って、スマホはキッチンに置く。この組み合わせにしてから続くようになりました。

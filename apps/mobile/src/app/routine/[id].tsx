@@ -6,6 +6,7 @@ import { DayChips } from '@/shared/components/day-chip';
 import { StepRow } from '@/shared/components/step-row';
 import { useRoutines } from '@/shared/stores/routine-store';
 import { useAppTheme } from '@/theme/colors';
+import { fonts } from '@/theme/typography';
 
 import type { GroupName } from '@routine-keeper/core';
 
@@ -24,9 +25,9 @@ export default function RoutineEditorScreen() {
       style={{ flex: 1, backgroundColor: colors.bg }}
       contentInsetAdjustmentBehavior='automatic'
       contentContainerStyle={{
-        paddingHorizontal: 20,
-        paddingTop: 20,
-        paddingBottom: 40,
+        paddingHorizontal: 22,
+        paddingTop: 18,
+        paddingBottom: 44,
       }}
     >
       <View
@@ -34,14 +35,14 @@ export default function RoutineEditorScreen() {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginBottom: 22,
+          marginBottom: 20,
         }}
       >
         <Pressable
           onPress={() => {
             router.back();
           }}
-          hitSlop={10}
+          hitSlop={12}
         >
           <ArrowLeft size={22} color={colors.t3} />
         </Pressable>
@@ -49,13 +50,13 @@ export default function RoutineEditorScreen() {
           onPress={() => {
             router.back();
           }}
-          hitSlop={10}
+          hitSlop={12}
         >
           <Text
             style={{
+              fontFamily: fonts.jpMedium,
               fontSize: 14,
               color: colors.acc,
-              fontFamily: 'NotoSansJP_400Regular',
             }}
           >
             保存
@@ -65,85 +66,53 @@ export default function RoutineEditorScreen() {
 
       <Text
         style={{
-          fontSize: 12,
-          letterSpacing: 0.6,
-          color: colors.muted,
-          fontFamily: 'NotoSansJP_400Regular',
-        }}
-      >
-        ルーティン
-      </Text>
-      <Text
-        style={{
+          fontFamily: fonts.jpMedium,
           fontSize: 28,
-          fontWeight: '500',
-          fontFamily: 'NotoSansJP_500Medium',
           color: colors.text,
-          marginTop: 6,
           marginBottom: 22,
         }}
       >
         {routine.group}
       </Text>
 
-      <View style={{ flexDirection: 'row', gap: 10, marginBottom: 22 }}>
-        <View
-          style={{
-            flex: 1,
-            padding: 14,
-            paddingHorizontal: 16,
-            borderRadius: 14,
-            backgroundColor: colors.surface,
-            boxShadow: `0 0 0 1px ${colors.line}`,
-          }}
-        >
+      <View
+        style={{
+          flexDirection: 'row',
+          gap: 32,
+          paddingBottom: 18,
+          borderBottomWidth: 1,
+          borderBottomColor: colors.line,
+        }}
+      >
+        <View>
           <Text
-            style={{
-              fontSize: 12,
-              color: colors.muted,
-              fontFamily: 'NotoSansJP_400Regular',
-            }}
+            style={{ fontFamily: fonts.jp, fontSize: 12, color: colors.muted }}
           >
             開始
           </Text>
           <Text
             style={{
+              fontFamily: fonts.figure,
               fontSize: 20,
-              fontWeight: '500',
-              fontFamily: 'NotoSansJP_500Medium',
               color: colors.text,
-              marginTop: 2,
+              marginTop: 3,
             }}
           >
             {routine.start}
           </Text>
         </View>
-        <View
-          style={{
-            flex: 1,
-            padding: 14,
-            paddingHorizontal: 16,
-            borderRadius: 14,
-            backgroundColor: colors.surface,
-            boxShadow: `0 0 0 1px ${colors.line}`,
-          }}
-        >
+        <View>
           <Text
-            style={{
-              fontSize: 12,
-              color: colors.muted,
-              fontFamily: 'NotoSansJP_400Regular',
-            }}
+            style={{ fontFamily: fonts.jp, fontSize: 12, color: colors.muted }}
           >
             所要
           </Text>
           <Text
             style={{
+              fontFamily: fonts.figure,
               fontSize: 20,
-              fontWeight: '500',
-              fontFamily: 'NotoSansJP_500Medium',
               color: colors.text,
-              marginTop: 2,
+              marginTop: 3,
             }}
           >
             {routine.duration}
@@ -153,79 +122,51 @@ export default function RoutineEditorScreen() {
 
       <Text
         style={{
+          fontFamily: fonts.jp,
           fontSize: 13,
           color: colors.t3,
-          fontFamily: 'NotoSansJP_400Regular',
-          marginBottom: 10,
+          marginTop: 24,
+          marginBottom: 12,
         }}
       >
         繰り返す曜日
       </Text>
-      <View style={{ marginBottom: 28 }}>
-        <DayChips days={routine.days} />
-      </View>
+      <DayChips days={routine.days} />
 
-      <View
+      <Text
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: 10,
+          fontFamily: fonts.jpMedium,
+          fontSize: 14,
+          color: colors.t2,
+          marginTop: 30,
+          marginBottom: 2,
         }}
       >
-        <Text
-          style={{
-            fontSize: 13,
-            color: colors.t3,
-            fontFamily: 'NotoSansJP_400Regular',
-          }}
-        >
-          ステップ
-        </Text>
-        <Text
-          style={{
-            fontSize: 12,
-            color: colors.faint,
-            fontFamily: 'NotoSansJP_400Regular',
-          }}
-        >
-          長押しで並べ替え
-        </Text>
-      </View>
-      <View style={{ gap: 8, marginBottom: 18 }}>
-        {routine.steps.map((step) => (
-          <StepRow key={step.id} step={step} />
-        ))}
-      </View>
+        ステップ
+      </Text>
+      {routine.steps.map((step) => (
+        <StepRow key={step.id} step={step} />
+      ))}
 
-      <Pressable
-        style={{
-          minHeight: 52,
-          borderRadius: 14,
-          borderWidth: 1,
-          borderStyle: 'dashed',
-          borderColor: colors.dim,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+      <Pressable style={{ paddingVertical: 16 }}>
         <Text
           style={{
+            fontFamily: fonts.jpMedium,
             fontSize: 15,
-            color: colors.t3,
-            fontFamily: 'NotoSansJP_400Regular',
+            color: colors.acc,
           }}
         >
           ＋ ステップを追加
         </Text>
       </Pressable>
+
       <Text
         style={{
+          fontFamily: fonts.jp,
           fontSize: 13,
-          color: colors.faint,
-          fontFamily: 'NotoSansJP_400Regular',
-          marginTop: 16,
           lineHeight: 22,
+          color: colors.faint,
+          marginTop: 8,
         }}
       >
         4ステップで{routine.group}

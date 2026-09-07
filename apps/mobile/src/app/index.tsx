@@ -1,17 +1,12 @@
 import { Redirect, router } from 'expo-router';
-import {
-  CheckCircle,
-  CircleIcon,
-  MoonStars,
-  SunHorizon,
-  Briefcase,
-} from 'phosphor-react-native';
+import { Briefcase, MoonStars, SunHorizon } from 'phosphor-react-native';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useRoutineStore } from '@/shared/stores/routine-store';
 import { useAppTheme } from '@/theme/colors';
+import { fonts } from '@/theme/typography';
 
 import type { GroupName } from '@routine-keeper/core';
 
@@ -61,62 +56,34 @@ export default function OnboardingScreen() {
 
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: colors.canvas }}
+      style={{ flex: 1, backgroundColor: colors.bg }}
       edges={['top', 'bottom']}
     >
       <View
         style={{
           flex: 1,
-          paddingHorizontal: 26,
-          paddingTop: 12,
+          paddingHorizontal: 28,
+          paddingTop: 24,
           paddingBottom: 24,
         }}
       >
-        <View style={{ flexDirection: 'row', gap: 6, marginBottom: 32 }}>
-          <View
-            style={{
-              width: 26,
-              height: 3,
-              borderRadius: 2,
-              backgroundColor: colors.acc,
-            }}
-          />
-          <View
-            style={{
-              width: 26,
-              height: 3,
-              borderRadius: 2,
-              backgroundColor: colors.line,
-            }}
-          />
-          <View
-            style={{
-              width: 26,
-              height: 3,
-              borderRadius: 2,
-              backgroundColor: colors.line,
-            }}
-          />
-        </View>
+        <View
+          style={{
+            width: 60,
+            height: 60,
+            borderRadius: 999,
+            borderWidth: 2,
+            borderColor: colors.acc,
+          }}
+        />
 
         <Text
           style={{
-            fontSize: 12,
-            letterSpacing: 1.2,
-            color: colors.acc,
-            marginBottom: 16,
-            fontFamily: 'NotoSansJP_400Regular',
-          }}
-        >
-          ようこそ
-        </Text>
-        <Text
-          style={{
+            fontFamily: fonts.jpMedium,
             fontSize: 30,
-            lineHeight: 40,
-            fontWeight: '500',
-            fontFamily: 'NotoSansJP_500Medium',
+            lineHeight: 42,
             color: colors.text,
+            marginTop: 28,
             marginBottom: 16,
           }}
         >
@@ -124,17 +91,16 @@ export default function OnboardingScreen() {
         </Text>
         <Text
           style={{
-            color: colors.t3,
+            fontFamily: fonts.jp,
             fontSize: 15,
             lineHeight: 26,
-            fontFamily: 'NotoSansJP_400Regular',
-            marginBottom: 32,
+            color: colors.t3,
           }}
         >
           整えたい時間帯を選んでください。あとから自由に変えられます。ここでの選択に縛られることはありません。
         </Text>
 
-        <View style={{ gap: 12 }}>
+        <View style={{ marginTop: 30 }}>
           {OPTIONS.map(({ key, label, detail, Icon }) => {
             const on = selected[key];
             return (
@@ -146,24 +112,22 @@ export default function OnboardingScreen() {
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  gap: 14,
-                  padding: 18,
-                  borderRadius: 14,
-                  backgroundColor: colors.surface,
-                  boxShadow: `0 0 0 1px ${on ? colors.accBorder : colors.line}`,
+                  gap: 16,
+                  paddingVertical: 18,
+                  borderBottomWidth: 1,
+                  borderBottomColor: colors.line,
                 }}
               >
                 <Icon
-                  size={24}
-                  weight={on ? 'fill' : 'regular'}
-                  color={on ? colors.acc : colors.t3}
+                  size={22}
+                  weight='regular'
+                  color={on ? colors.acc : colors.faint}
                 />
                 <View style={{ flex: 1 }}>
                   <Text
                     style={{
+                      fontFamily: fonts.jpMedium,
                       fontSize: 16,
-                      fontWeight: '500',
-                      fontFamily: 'NotoSansJP_500Medium',
                       color: colors.text,
                     }}
                   >
@@ -171,20 +135,24 @@ export default function OnboardingScreen() {
                   </Text>
                   <Text
                     style={{
+                      fontFamily: fonts.jp,
                       fontSize: 13,
                       color: colors.muted,
-                      fontFamily: 'NotoSansJP_400Regular',
-                      marginTop: 2,
+                      marginTop: 3,
                     }}
                   >
                     {detail}
                   </Text>
                 </View>
-                {on ? (
-                  <CheckCircle size={22} weight='fill' color={colors.acc} />
-                ) : (
-                  <CircleIcon size={22} color={colors.dim} />
-                )}
+                <View
+                  style={{
+                    width: 24,
+                    height: 24,
+                    borderRadius: 999,
+                    borderWidth: on ? 7 : 1.5,
+                    borderColor: on ? colors.acc : colors.dim,
+                  }}
+                />
               </Pressable>
             );
           })}
@@ -202,30 +170,29 @@ export default function OnboardingScreen() {
           }}
           style={{
             minHeight: 54,
-            borderRadius: 14,
-            borderWidth: 1,
-            borderColor: colors.acc,
+            borderRadius: 16,
+            backgroundColor: colors.acc,
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
           <Text
             style={{
+              fontFamily: fonts.jpMedium,
               fontSize: 16,
-              fontFamily: 'NotoSansJP_500Medium',
-              color: colors.acc,
+              color: colors.onAcc,
             }}
           >
-            {count}つのルーティンで始める
+            {count}つのルーティンではじめる
           </Text>
         </Pressable>
         <Text
           style={{
-            textAlign: 'center',
-            marginTop: 16,
+            fontFamily: fonts.jp,
             fontSize: 13,
             color: colors.muted,
-            fontFamily: 'NotoSansJP_400Regular',
+            textAlign: 'center',
+            marginTop: 16,
           }}
         >
           最初の一週間は2つで十分です。
