@@ -151,10 +151,8 @@ export function TaskRow({
         <Animated.View
           style={[
             {
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 15,
-              paddingVertical: 15,
+              justifyContent: 'center',
+              paddingVertical: 14,
               paddingHorizontal: 2,
               minHeight: 62,
               backgroundColor: colors.bg,
@@ -162,87 +160,91 @@ export function TaskRow({
             rowStyle,
           ]}
         >
-          <Pressable
-            onPress={() => {
-              onToggle(task.id, !task.done);
-            }}
-            accessibilityRole='checkbox'
-            accessibilityState={{ checked: task.done }}
-            accessibilityLabel={task.name}
-            hitSlop={12}
-          >
-            <Animated.View
-              style={[
-                {
-                  width: 26,
-                  height: 26,
-                  borderRadius: 999,
-                  borderWidth: task.done ? 2 : 1.5,
-                  borderColor: task.done ? colors.grow : colors.dim,
-                  backgroundColor: task.done ? colors.growTint : 'transparent',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                },
-                bulletStyle,
-              ]}
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 15 }}>
+            <Pressable
+              onPress={() => {
+                onToggle(task.id, !task.done);
+              }}
+              accessibilityRole='checkbox'
+              accessibilityState={{ checked: task.done }}
+              accessibilityLabel={task.name}
+              hitSlop={12}
             >
-              {task.done ? (
-                <Check size={13} weight='bold' color={colors.grow} />
-              ) : null}
-            </Animated.View>
-          </Pressable>
+              <Animated.View
+                style={[
+                  {
+                    width: 26,
+                    height: 26,
+                    borderRadius: 999,
+                    borderWidth: task.done ? 2 : 1.5,
+                    borderColor: task.done ? colors.acc : colors.dim,
+                    backgroundColor: task.done ? colors.accTint : 'transparent',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  },
+                  bulletStyle,
+                ]}
+              >
+                {task.done ? (
+                  <Check size={13} weight='bold' color={colors.acc} />
+                ) : null}
+              </Animated.View>
+            </Pressable>
 
-          <Link
-            href={{ pathname: '/task/[id]', params: { id: String(task.id) } }}
-            asChild
-          >
-            <Pressable style={{ flex: 1 }}>
+            <Link
+              href={{ pathname: '/task/[id]', params: { id: String(task.id) } }}
+              asChild
+            >
+              <Pressable style={{ flex: 1 }}>
+                <Text
+                  style={{
+                    fontFamily: fonts.jpMedium,
+                    fontSize: 15.5,
+                    color: task.done ? colors.faint : colors.text,
+                    textDecorationLine: task.done ? 'line-through' : 'none',
+                  }}
+                >
+                  {task.name}
+                </Text>
+              </Pressable>
+            </Link>
+
+            <Text
+              style={{ fontFamily: fonts.jp, fontSize: 13, color: colors.t3 }}
+            >
+              {task.time}
+            </Text>
+            {task.done ? null : (
+              <HandSwipeRight
+                size={16}
+                color={colors.faint}
+                style={{ marginLeft: 4 }}
+              />
+            )}
+          </View>
+
+          {task.streak >= 2 ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 4,
+                marginTop: 5,
+                marginLeft: 41,
+              }}
+            >
+              <Flame size={12} weight='fill' color={colors.acc} />
               <Text
                 style={{
                   fontFamily: fonts.jpMedium,
-                  fontSize: 15.5,
-                  color: task.done ? colors.faint : colors.text,
-                  textDecorationLine: task.done ? 'line-through' : 'none',
+                  fontSize: 12,
+                  color: colors.accStrong,
                 }}
               >
-                {task.name}
+                {task.streak}日
               </Text>
-              {task.streak >= 2 ? (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 4,
-                    marginTop: 3,
-                  }}
-                >
-                  <Flame size={12} weight='fill' color={colors.acc} />
-                  <Text
-                    style={{
-                      fontFamily: fonts.jpMedium,
-                      fontSize: 12,
-                      color: colors.accStrong,
-                    }}
-                  >
-                    {task.streak}日
-                  </Text>
-                </View>
-              ) : null}
-            </Pressable>
-          </Link>
-
-          <Text
-            style={{ fontFamily: fonts.jp, fontSize: 13, color: colors.t3 }}
-          >
-            {task.time}
-          </Text>
-          {task.done ? null : (
-            <HandSwipeRight
-              size={16}
-              color={colors.faint}
-              style={{ marginLeft: 4 }}
-            />
-          )}
+            </View>
+          ) : null}
         </Animated.View>
       </GestureDetector>
     </View>

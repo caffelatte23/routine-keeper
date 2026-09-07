@@ -55,7 +55,7 @@ export function ProgressRing({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 999,
-        boxShadow: `0 0 40px 2px ${closed ? colors.growTint : colors.glow}`,
+        boxShadow: `0 0 40px 2px ${colors.glow}`,
       }}
     >
       <Svg
@@ -76,21 +76,26 @@ export function ProgressRing({
           cy={size / 2}
           r={radius}
           fill='none'
-          stroke={closed ? colors.grow : colors.acc}
+          stroke={colors.acc}
           strokeWidth={stroke}
           strokeLinecap='round'
           strokeDasharray={circumference}
           animatedProps={animatedProps}
         />
       </Svg>
-      <View style={{ alignItems: 'center' }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'baseline',
+          justifyContent: 'center',
+        }}
+      >
         <Text
           style={{
             fontFamily: fonts.figureBold,
             fontSize: size * 0.4,
-            lineHeight: size * 0.44,
-            letterSpacing: -1,
-            color: closed ? colors.grow : colors.text,
+            includeFontPadding: false,
+            color: closed ? colors.acc : colors.text,
           }}
         >
           {done}
@@ -98,12 +103,13 @@ export function ProgressRing({
         <Text
           style={{
             fontFamily: fonts.jp,
-            fontSize: size * 0.09,
+            fontSize: size * 0.1,
+            includeFontPadding: false,
             color: colors.faint,
-            marginTop: size * 0.02,
+            marginLeft: 3,
           }}
         >
-          / {total}
+          /{total}
         </Text>
       </View>
     </View>

@@ -58,18 +58,18 @@ export default function RoutinesScreen() {
           >
             <Pressable
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 16,
                 paddingVertical: 18,
                 borderBottomWidth: 1,
                 borderBottomColor: colors.line,
               }}
             >
-              <Icon size={22} weight='regular' color={colors.acc} />
-              <View style={{ flex: 1 }}>
+              <View
+                style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}
+              >
+                <Icon size={22} weight='regular' color={colors.acc} />
                 <Text
                   style={{
+                    flex: 1,
                     fontFamily: fonts.jpMedium,
                     fontSize: 16,
                     color: colors.text,
@@ -77,20 +77,21 @@ export default function RoutinesScreen() {
                 >
                   {group}
                 </Text>
-                <Text
-                  style={{
-                    fontFamily: fonts.jp,
-                    fontSize: 12.5,
-                    color: colors.muted,
-                    marginTop: 3,
-                  }}
-                >
-                  {routine?.start}開始{'    '}
-                  <Text style={{ fontFamily: fonts.figure }}>{stepCount}</Text>
-                  ステップ
-                </Text>
+                <CaretRight size={15} color={colors.dim} />
               </View>
-              <CaretRight size={15} color={colors.dim} />
+              <Text
+                style={{
+                  fontFamily: fonts.jp,
+                  fontSize: 12.5,
+                  color: colors.muted,
+                  marginTop: 4,
+                  marginLeft: 38,
+                }}
+              >
+                {routine?.start}開始{'    '}
+                <Text style={{ fontFamily: fonts.figure }}>{stepCount}</Text>
+                ステップ
+              </Text>
             </Pressable>
           </Link>
         );

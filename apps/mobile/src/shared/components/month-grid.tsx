@@ -22,7 +22,7 @@ export function MonthGrid({ cells }: { cells: MonthCell[] }) {
           <Text
             key={w}
             style={{
-              flex: 1,
+              width: `${100 / 7}%`,
               textAlign: 'center',
               fontSize: 11,
               color: colors.faint,
@@ -39,7 +39,7 @@ export function MonthGrid({ cells }: { cells: MonthCell[] }) {
           const border = c.isToday
             ? colors.acc
             : c.status === 'full'
-              ? colors.grow
+              ? colors.acc
               : c.status === 'partial'
                 ? colors.accBorder
                 : c.status === 'missed'
@@ -64,7 +64,7 @@ export function MonthGrid({ cells }: { cells: MonthCell[] }) {
                   justifyContent: 'center',
                   borderWidth: c.isToday ? 2 : filled ? 0 : 1,
                   borderColor: c.day ? border : 'transparent',
-                  backgroundColor: filled ? colors.grow : 'transparent',
+                  backgroundColor: filled ? colors.acc : 'transparent',
                 }}
               >
                 {c.day ? (
@@ -73,7 +73,7 @@ export function MonthGrid({ cells }: { cells: MonthCell[] }) {
                       fontFamily: fonts.figure,
                       fontSize: 13,
                       color: filled
-                        ? colors.onGrow
+                        ? colors.onAcc
                         : c.isToday
                           ? colors.acc
                           : c.future

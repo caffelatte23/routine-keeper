@@ -61,7 +61,7 @@ export default function CalendarScreen() {
       <View
         style={{
           flexDirection: 'row',
-          alignItems: 'baseline',
+          alignItems: 'center',
           justifyContent: 'space-between',
           marginBottom: 24,
         }}
@@ -148,7 +148,7 @@ export default function CalendarScreen() {
                 borderRadius: 999,
                 borderWidth: complete ? 0 : 1.5,
                 borderColor: colors.dim,
-                backgroundColor: complete ? colors.grow : 'transparent',
+                backgroundColor: complete ? colors.acc : 'transparent',
               }}
             />
             <Text

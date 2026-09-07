@@ -107,67 +107,73 @@ export default function TodayScreen() {
         {next ? (
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 14,
               marginTop: 22,
               padding: 16,
               borderRadius: 16,
               backgroundColor: colors.accTint,
             }}
           >
-            <Pressable
-              onPress={() => {
-                setTaskDone(next.id, true);
-              }}
-              accessibilityRole='checkbox'
-              accessibilityState={{ checked: false }}
-              accessibilityLabel={`${next.name} を完了`}
-              hitSlop={12}
+            <Text
               style={{
-                width: 28,
-                height: 28,
-                borderRadius: 999,
-                borderWidth: 1.5,
-                borderColor: colors.acc,
+                fontFamily: fonts.jp,
+                fontSize: 11.5,
+                color: colors.accStrong,
+                marginLeft: 42,
               }}
-            />
-            <Link
-              href={{ pathname: '/task/[id]', params: { id: next.id } }}
-              asChild
             >
-              <Pressable style={{ flex: 1 }}>
-                <Text
-                  style={{
-                    fontFamily: fonts.jp,
-                    fontSize: 11.5,
-                    color: colors.accStrong,
-                  }}
-                >
-                  次の一歩
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: fonts.jpMedium,
-                    fontSize: 16,
-                    color: colors.text,
-                    marginTop: 2,
-                  }}
-                >
-                  {next.name}
+              次の一歩
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 14,
+                marginTop: 3,
+              }}
+            >
+              <Pressable
+                onPress={() => {
+                  setTaskDone(next.id, true);
+                }}
+                accessibilityRole='checkbox'
+                accessibilityState={{ checked: false }}
+                accessibilityLabel={`${next.name} を完了`}
+                hitSlop={12}
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: 999,
+                  borderWidth: 1.5,
+                  borderColor: colors.acc,
+                }}
+              />
+              <Link
+                href={{ pathname: '/task/[id]', params: { id: next.id } }}
+                asChild
+              >
+                <Pressable style={{ flex: 1 }}>
                   <Text
                     style={{
-                      fontFamily: fonts.jp,
-                      fontSize: 13,
-                      color: colors.muted,
+                      fontFamily: fonts.jpMedium,
+                      fontSize: 16,
+                      color: colors.text,
                     }}
                   >
-                    {'   '}
-                    {next.mins}
+                    {next.name}
+                    <Text
+                      style={{
+                        fontFamily: fonts.jp,
+                        fontSize: 13,
+                        color: colors.muted,
+                      }}
+                    >
+                      {'   '}
+                      {next.mins}
+                    </Text>
                   </Text>
-                </Text>
-              </Pressable>
-            </Link>
+                </Pressable>
+              </Link>
+            </View>
           </View>
         ) : null}
 

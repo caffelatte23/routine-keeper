@@ -38,10 +38,10 @@ export function CelebrationOverlay({
           height: 132,
           borderRadius: 999,
           borderWidth: 3,
-          borderColor: colors.grow,
+          borderColor: colors.acc,
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: `0 0 72px 10px ${colors.growTint}`,
+          boxShadow: `0 0 72px 10px ${colors.accTint}`,
           marginBottom: 30,
         }}
       >
@@ -50,7 +50,7 @@ export function CelebrationOverlay({
             fontFamily: fonts.figure,
             fontSize: 52,
             lineHeight: 56,
-            color: colors.grow,
+            color: colors.acc,
           }}
         >
           {streakDays}

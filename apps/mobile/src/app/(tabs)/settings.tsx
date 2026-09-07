@@ -71,7 +71,7 @@ export default function SettingsScreen() {
       <View
         style={{
           flexDirection: 'row',
-          alignItems: 'baseline',
+          alignItems: 'center',
           justifyContent: 'space-between',
           paddingVertical: 18,
           borderBottomWidth: 1,

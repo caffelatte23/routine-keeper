@@ -3,8 +3,7 @@ import { useColorScheme } from 'react-native';
 export type AppPalette = typeof darkPalette;
 
 // "Warm ink on used paper." Neutrals are warm (brown-black, tea-stained grey),
-// never blue. Two accents carry meaning: marigold = momentum / streak / active,
-// green (`grow`) = a loop closed / done / progress. Muted, not neon.
+// never blue. One confident marigold accent; one receding sage for "not due".
 export const darkPalette = {
   canvas: '#141311',
   bg: '#1a1917',
@@ -26,11 +25,6 @@ export const darkPalette = {
   glow: 'rgba(228,171,46,0.30)',
   sage: '#8a9a7b',
   sageTint: '#242a20',
-  grow: '#7fb489',
-  growStrong: '#c9e6cf',
-  growTint: '#1f2a22',
-  growBorder: '#3f5c46',
-  onGrow: '#141311',
   heroFrom: '#2e2717',
   heroTo: '#1a1917',
   celebFrom: '#55461c',
@@ -63,11 +57,6 @@ export const lightPalette: AppPalette = {
   glow: 'rgba(193,133,12,0.22)',
   sage: '#6f7e62',
   sageTint: '#dfe3d6',
-  grow: '#4f8f63',
-  growStrong: '#356044',
-  growTint: '#dde8dd',
-  growBorder: '#a9cbb0',
-  onGrow: '#f7f5ed',
   heroFrom: '#f1e5c6',
   heroTo: '#e8eae3',
   celebFrom: '#efe2be',
