@@ -39,6 +39,7 @@ export default function SettingsScreen() {
         style={{
           fontFamily: fonts.jpMedium,
           fontSize: 28,
+          lineHeight: 35,
           color: colors.text,
           marginBottom: 24,
         }}
@@ -50,6 +51,7 @@ export default function SettingsScreen() {
         style={{
           fontFamily: fonts.jpMedium,
           fontSize: 14,
+          lineHeight: 20,
           color: colors.t2,
           marginBottom: 2,
         }}
@@ -79,12 +81,22 @@ export default function SettingsScreen() {
         }}
       >
         <Text
-          style={{ fontFamily: fonts.jp, fontSize: 15, color: colors.text }}
+          style={{
+            fontFamily: fonts.jp,
+            fontSize: 15,
+            lineHeight: 22,
+            color: colors.text,
+          }}
         >
           おやすみ時間
         </Text>
         <Text
-          style={{ fontFamily: fonts.figure, fontSize: 16, color: colors.t2 }}
+          style={{
+            fontFamily: fonts.figure,
+            fontSize: 16,
+            lineHeight: 23,
+            color: colors.t2,
+          }}
         >
           {settings.quietStart}
           <Text style={{ color: colors.faint }}>{'  –  '}</Text>
@@ -113,6 +125,7 @@ export default function SettingsScreen() {
             style={{
               fontFamily: fonts.jpMedium,
               fontSize: 15,
+              lineHeight: 22,
               color: colors.text,
               flex: 1,
             }}
@@ -129,6 +142,7 @@ export default function SettingsScreen() {
               style={{
                 fontFamily: fonts.jpMedium,
                 fontSize: 14,
+                lineHeight: 20,
                 color: colors.acc,
               }}
             >

@@ -56,7 +56,12 @@ export default function TaskDetailScreen() {
       </View>
 
       <Text
-        style={{ fontFamily: fonts.jp, fontSize: 12.5, color: colors.muted }}
+        style={{
+          fontFamily: fonts.jp,
+          fontSize: 12.5,
+          lineHeight: 18,
+          color: colors.muted,
+        }}
       >
         {detail.group}
         {'   '}
@@ -66,6 +71,7 @@ export default function TaskDetailScreen() {
         style={{
           fontFamily: fonts.jpMedium,
           fontSize: 27,
+          lineHeight: 34,
           color: colors.text,
           marginTop: 6,
           marginBottom: 26,
@@ -106,6 +112,7 @@ export default function TaskDetailScreen() {
         style={{
           fontFamily: fonts.jp,
           fontSize: 13,
+          lineHeight: 19,
           color: colors.t3,
           marginBottom: 14,
         }}
@@ -131,6 +138,7 @@ export default function TaskDetailScreen() {
                 flex: 1,
                 fontFamily: fonts.jp,
                 fontSize: 15,
+                lineHeight: 22,
                 color: colors.text,
               }}
             >
@@ -140,6 +148,7 @@ export default function TaskDetailScreen() {
               style={{
                 fontFamily: fonts.jp,
                 fontSize: 14,
+                lineHeight: 20,
                 color: colors.t3,
                 marginRight: 8,
               }}
@@ -162,6 +171,7 @@ export default function TaskDetailScreen() {
           style={{
             fontFamily: fonts.jp,
             fontSize: 12,
+            lineHeight: 17,
             color: colors.muted,
             marginBottom: 8,
           }}

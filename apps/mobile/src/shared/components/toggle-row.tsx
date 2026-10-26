@@ -50,6 +50,7 @@ export function ToggleRow({
           style={{
             fontFamily: fonts.jpMedium,
             fontSize: 15,
+            lineHeight: 22,
             color: colors.text,
           }}
         >

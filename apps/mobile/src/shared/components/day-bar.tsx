@@ -68,6 +68,7 @@ export function DayBar({
             style={{
               fontFamily: fonts.figure,
               fontSize: 12,
+              lineHeight: 17,
               color: colors.muted,
             }}
           >

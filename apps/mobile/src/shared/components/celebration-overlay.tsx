@@ -59,6 +59,7 @@ export function CelebrationOverlay({
           style={{
             fontFamily: fonts.jp,
             fontSize: 11.5,
+            lineHeight: 17,
             color: colors.faint,
             marginTop: 2,
           }}
@@ -72,6 +73,7 @@ export function CelebrationOverlay({
         style={{
           fontFamily: fonts.jpMedium,
           fontSize: 24,
+          lineHeight: 30,
           color: colors.text,
           marginBottom: 10,
         }}
@@ -101,6 +103,7 @@ export function CelebrationOverlay({
           style={{
             fontFamily: fonts.jpMedium,
             fontSize: 15,
+            lineHeight: 22,
             color: colors.acc,
           }}
         >
