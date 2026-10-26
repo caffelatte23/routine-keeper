@@ -230,6 +230,7 @@ export default function TodayScreen() {
                       alignItems: 'center',
                       gap: 14,
                       minHeight: 62,
+                      paddingVertical: 10,
                       borderBottomWidth: i < rest.length - 1 ? 1 : 0,
                       borderBottomColor: colors.line,
                     }}
@@ -251,6 +252,7 @@ export default function TodayScreen() {
                         style={{
                           fontFamily: fonts.jpMedium,
                           fontSize: 15,
+                          lineHeight: 21,
                           color: colors.text,
                         }}
                       >
@@ -260,6 +262,7 @@ export default function TodayScreen() {
                         style={{
                           fontFamily: fonts.jp,
                           fontSize: 12,
+                          lineHeight: 17,
                           color: colors.muted,
                         }}
                       >
@@ -271,6 +274,7 @@ export default function TodayScreen() {
                         style={{
                           fontFamily: fonts.jpMedium,
                           fontSize: 12,
+                          lineHeight: 17,
                           color: colors.acc,
                         }}
                       >

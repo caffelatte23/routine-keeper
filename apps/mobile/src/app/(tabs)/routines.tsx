@@ -57,6 +57,7 @@ export default function RoutinesScreen() {
                 alignItems: 'center',
                 gap: 14,
                 minHeight: 76,
+                paddingVertical: 12,
                 borderBottomWidth: 1,
                 borderBottomColor: colors.line,
               }}
@@ -78,6 +79,7 @@ export default function RoutinesScreen() {
                   style={{
                     fontFamily: fonts.jpMedium,
                     fontSize: 16,
+                    lineHeight: 22,
                     color: colors.text,
                   }}
                 >
@@ -87,6 +89,7 @@ export default function RoutinesScreen() {
                   style={{
                     fontFamily: fonts.jp,
                     fontSize: 12.5,
+                    lineHeight: 18,
                     color: colors.muted,
                   }}
                 >
@@ -96,6 +99,7 @@ export default function RoutinesScreen() {
                   style={{
                     fontFamily: fonts.jp,
                     fontSize: 12.5,
+                    lineHeight: 18,
                     color: colors.muted,
                   }}
                 >
