@@ -45,6 +45,10 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
+            name='play/[group]'
+            options={{ presentation: 'fullScreenModal' }}
+          />
+          <Stack.Screen
             name='task/[id]'
             options={{
               presentation: 'formSheet',
