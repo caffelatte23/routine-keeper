@@ -15,8 +15,8 @@ const TOGGLE_META = [
   { key: 'evening', name: '夜の切り替え', detail: '20:45にそっと通知します' },
   {
     key: 'risk',
-    name: '連続記録の警告',
-    detail: '5日以上の記録が途切れそうなときだけ',
+    name: 'リズムのお知らせ',
+    detail: 'この7日で、保てた日が半分を下回りそうなときだけ',
   },
   { key: 'recap', name: '週のふりかえり', detail: '日曜の夕方に短く' },
 ] as const;
@@ -137,6 +137,9 @@ export default function SettingsScreen() {
               toggleSetting('gentleMode');
             }}
             hitSlop={10}
+            accessibilityRole='switch'
+            accessibilityLabel='やさしいモード'
+            accessibilityState={{ checked: settings.gentleMode }}
           >
             <Text
               style={{
@@ -158,7 +161,7 @@ export default function SettingsScreen() {
             color: colors.t2,
           }}
         >
-          通知はルーティンごとに1回だけ、2回目は送りません。できなかった日は静かに記録し、連続記録には1日の猶予があります。
+          通知はルーティンごとに1回だけ、2回目は送りません。できなかった日も静かに記録するだけで、半分できた日は保てた日としてかぞえます。
         </Text>
       </View>
     </ScrollView>
