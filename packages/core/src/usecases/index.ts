@@ -4,3 +4,9 @@ export { buildTodayTasks, type TodayInput } from './today';
 export { buildHeatmap, type HeatmapInput } from './heatmap';
 export { buildMonthStatus, type MonthInput, type MonthResult } from './month';
 export { decideToggle, type ToggleInput, type ToggleDecision } from './toggle';
+export {
+  computeRhythm,
+  rhythmPercent,
+  type RhythmInput,
+  type Rhythm,
+} from './rhythm';
