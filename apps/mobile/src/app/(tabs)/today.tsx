@@ -10,6 +10,7 @@ import { Link } from 'expo-router';
 import { CaretRight, Check, GearSix, Play } from 'phosphor-react-native';
 import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { parseMins, parseWindow, pickFeatured } from '@/lib/day';
 import { formatJpDate } from '@/lib/format';
@@ -66,6 +67,7 @@ export default function TodayScreen() {
     dismissCelebration,
   } = useRoutineStore();
   const now = useNowMinutes();
+  const insets = useSafeAreaInsets();
   const today = todayIso(systemClock);
 
   const phases = GROUP_ORDER.flatMap((group) => {
@@ -96,7 +98,7 @@ export default function TodayScreen() {
         contentInsetAdjustmentBehavior='automatic'
         contentContainerStyle={{
           paddingHorizontal: 20,
-          paddingTop: 14,
+          paddingTop: insets.top + 14,
           paddingBottom: 32,
           gap: 24,
         }}
@@ -228,6 +230,7 @@ export default function TodayScreen() {
                       alignItems: 'center',
                       gap: 14,
                       minHeight: 62,
+                      paddingVertical: 10,
                       borderBottomWidth: i < rest.length - 1 ? 1 : 0,
                       borderBottomColor: colors.line,
                     }}
@@ -249,6 +252,7 @@ export default function TodayScreen() {
                         style={{
                           fontFamily: fonts.jpMedium,
                           fontSize: 15,
+                          lineHeight: 21,
                           color: colors.text,
                         }}
                       >
@@ -258,6 +262,7 @@ export default function TodayScreen() {
                         style={{
                           fontFamily: fonts.jp,
                           fontSize: 12,
+                          lineHeight: 17,
                           color: colors.muted,
                         }}
                       >
@@ -269,6 +274,7 @@ export default function TodayScreen() {
                         style={{
                           fontFamily: fonts.jpMedium,
                           fontSize: 12,
+                          lineHeight: 17,
                           color: colors.acc,
                         }}
                       >
@@ -483,7 +489,7 @@ function NowHero({
       <Link href={{ pathname: '/play/[group]', params: { group } }} asChild>
         <Pressable
           accessibilityRole='button'
-          style={({ pressed }) => ({
+          style={{
             height: 56,
             borderRadius: 28,
             backgroundColor: colors.text,
@@ -491,8 +497,7 @@ function NowHero({
             alignItems: 'center',
             justifyContent: 'center',
             gap: 10,
-            opacity: pressed ? 0.85 : 1,
-          })}
+          }}
         >
           <Play size={18} weight='fill' color={colors.bg} />
           <Text

@@ -82,6 +82,7 @@ export interface RoutineStep {
 }
 
 export interface RoutineView {
+  id: string;
   group: GroupName;
   icon: string;
   window: string;
@@ -283,6 +284,7 @@ export function RoutineDataProvider({ children }: { children: ReactNode }) {
     const out: Record<string, RoutineView> = {};
     for (const r of routines) {
       out[r.group] = {
+        id: r.id,
         group: r.group,
         icon: r.icon,
         window: r.windowLabel,

@@ -55,3 +55,20 @@ export function formatTimer(secs: number): string {
   const s = Math.max(secs, 0);
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 }
+
+const DAY_LABELS = ['月', '火', '水', '木', '金', '土', '日'];
+
+/** activeDays (月..日) -> '毎日' / '平日' / '月水金' / 'おやすみ中' */
+export function daysSummary(days: boolean[]): string {
+  const on = days.filter(Boolean).length;
+  if (on === 7) {
+    return '毎日';
+  }
+  if (on === 0) {
+    return 'おやすみ中';
+  }
+  if (on === 5 && days.slice(0, 5).every(Boolean)) {
+    return '平日';
+  }
+  return DAY_LABELS.filter((_, i) => days[i]).join('');
+}

@@ -1,5 +1,6 @@
 import {
   dayFraction,
+  daysSummary,
   formatTimer,
   parseMins,
   parseWindow,
@@ -60,5 +61,19 @@ describe('small formatters', () => {
     expect(dayFraction(0)).toBe(0);
     expect(dayFraction(900)).toBe(0.5);
     expect(dayFraction(1500)).toBe(1);
+  });
+});
+
+describe('daysSummary', () => {
+  const week = (s: string) => s.split('').map((c) => c === '1');
+
+  it('names the common patterns', () => {
+    expect(daysSummary(week('1111111'))).toBe('毎日');
+    expect(daysSummary(week('1111100'))).toBe('平日');
+    expect(daysSummary(week('0000000'))).toBe('おやすみ中');
+  });
+
+  it('lists the days otherwise', () => {
+    expect(daysSummary(week('1010100'))).toBe('月水金');
   });
 });
