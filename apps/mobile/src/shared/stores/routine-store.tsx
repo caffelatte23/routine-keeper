@@ -45,19 +45,7 @@ import { migrations } from '@/db/migrations';
 import { runSeed } from '@/db/seed';
 
 const HISTORY_DAYS = 60;
-const HEATMAP_DAYS = 28;
 const RHYTHM_DAYS = 14;
-
-const ENCOURAGEMENTS = [
-  '新しい一日。いちばん軽いものから始めましょう。',
-  'ひとつ完了。ここから少し楽になります。',
-  '2つ目。ここで一日が動き出します。',
-  '半分まで来ました。急ぐ必要はありません。',
-  '4つ完了。朝はうまく回りましたね。',
-  '残りは少しだけ、どれも小さめです。',
-  'あと1つ。どれかは分かっていますね。',
-  '今日のループはすべて閉じました。',
-];
 
 // ---- compat shapes: the screens still speak the old mock vocabulary ----
 
@@ -69,7 +57,6 @@ export interface Task {
   name: string;
   time: string;
   mins: string;
-  streak: number;
   done: boolean;
 }
 
@@ -98,20 +85,10 @@ export interface MonthRhythm {
   restDays: number[];
 }
 
-export interface StepDetail {
-  name: string;
-  group: GroupName;
-  time: string;
-  streak: number;
-  heat: number[];
-}
-
 interface RoutineStore {
   tasks: Task[];
   doneCount: number;
   celebrating: boolean;
-  encouragement: string;
-  heatPattern: number[];
   rhythm: number[];
   settings: ReminderSettings;
   userName: string;
@@ -127,7 +104,6 @@ interface RoutineStore {
     >,
   ) => void;
   completeOnboarding: (groups: GroupName[]) => void;
-  stepDetail: (id: string | undefined) => StepDetail | undefined;
   monthStatus: (year: number, month1: number) => MonthResult;
   monthRhythm: (year: number, month1: number) => MonthRhythm;
 }
@@ -218,7 +194,6 @@ export function RoutineDataProvider({ children }: { children: ReactNode }) {
         name: t.step.name,
         time: t.time,
         mins: t.step.minsLabel,
-        streak: t.streak,
         done: t.done,
       })),
     [routines, completions, today],
@@ -300,40 +275,6 @@ export function RoutineDataProvider({ children }: { children: ReactNode }) {
     return out;
   }, [routines]);
 
-  const stepDetail = useCallback<RoutineStore['stepDetail']>(
-    (id) => {
-      if (!id) {
-        return undefined;
-      }
-      for (const r of routines) {
-        const step = r.steps.find((s) => s.id === id);
-        if (!step) {
-          continue;
-        }
-        const single: RoutineWithSteps = { ...r, steps: [step] };
-        return {
-          name: step.name,
-          group: r.group,
-          time: step.timeLabel ?? r.startTime,
-          streak:
-            buildTodayTasks({
-              routines: [single],
-              completions,
-              date: today,
-            }).find((t) => t.step.id === id)?.streak ?? 0,
-          heat: buildHeatmap({
-            routines: [single],
-            completions,
-            endDate: today,
-            days: HEATMAP_DAYS,
-          }),
-        };
-      }
-      return undefined;
-    },
-    [routines, completions, today],
-  );
-
   const monthStatus = useCallback<RoutineStore['monthStatus']>(
     (year, month1) =>
       buildMonthStatus({ routines, completions, year, month1, today }),
@@ -376,14 +317,6 @@ export function RoutineDataProvider({ children }: { children: ReactNode }) {
       tasks,
       doneCount,
       celebrating,
-      encouragement:
-        ENCOURAGEMENTS[Math.min(doneCount, ENCOURAGEMENTS.length - 1)],
-      heatPattern: buildHeatmap({
-        routines,
-        completions,
-        endDate: today,
-        days: HEATMAP_DAYS,
-      }),
       rhythm: buildHeatmap({
         routines,
         completions,
@@ -401,7 +334,6 @@ export function RoutineDataProvider({ children }: { children: ReactNode }) {
       },
       toggleSetting,
       completeOnboarding,
-      stepDetail,
       monthStatus,
       monthRhythm,
     }),
@@ -419,7 +351,6 @@ export function RoutineDataProvider({ children }: { children: ReactNode }) {
       toggleTask,
       toggleSetting,
       completeOnboarding,
-      stepDetail,
       monthStatus,
       monthRhythm,
     ],

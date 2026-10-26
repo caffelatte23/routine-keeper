@@ -56,14 +56,6 @@ export default function RootLayout() {
             name='play/[group]'
             options={{ presentation: 'fullScreenModal' }}
           />
-          <Stack.Screen
-            name='task/[id]'
-            options={{
-              presentation: 'formSheet',
-              sheetGrabberVisible: true,
-              sheetAllowedDetents: [0.92],
-            }}
-          />
         </Stack>
       </RoutineDataProvider>
     </GestureHandlerRootView>
