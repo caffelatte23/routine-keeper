@@ -5,6 +5,8 @@ import {
   buildTodayTasks,
   completion as completionTable,
   computeGlobalStreak,
+  computeRhythm,
+  daysInMonth,
   DEFAULT_SETTINGS,
   decideToggle,
   META_KEYS,
@@ -20,6 +22,7 @@ import {
   type Completion,
   type GroupName,
   type MonthResult,
+  type Rhythm,
   type ReminderSettings,
   type RoutineRow,
   type RoutineStepRow,
@@ -88,6 +91,13 @@ export interface RoutineView {
   steps: RoutineStep[];
 }
 
+export interface MonthRhythm {
+  all: Rhythm;
+  byGroup: Partial<Record<GroupName, Rhythm>>;
+  /** Day numbers (1-based) up to today with nothing scheduled. */
+  restDays: number[];
+}
+
 export interface StepDetail {
   name: string;
   group: GroupName;
@@ -120,6 +130,7 @@ interface RoutineStore {
   completeOnboarding: (groups: GroupName[]) => void;
   stepDetail: (id: string | undefined) => StepDetail | undefined;
   monthStatus: (year: number, month1: number) => MonthResult;
+  monthRhythm: (year: number, month1: number) => MonthRhythm;
 }
 
 const RoutineContext = createContext<RoutineStore | null>(null);
@@ -329,6 +340,37 @@ export function RoutineDataProvider({ children }: { children: ReactNode }) {
     [routines, completions, today],
   );
 
+  const monthRhythm = useCallback<RoutineStore['monthRhythm']>(
+    (year, month1) => {
+      const mm = String(month1).padStart(2, '0');
+      const from = `${year}-${mm}-01`;
+      const last = `${year}-${mm}-${String(daysInMonth(year, month1)).padStart(2, '0')}`;
+      const to = last < today ? last : today;
+      const byGroup: MonthRhythm['byGroup'] = {};
+      for (const r of routines) {
+        byGroup[r.group] = computeRhythm({
+          routines: [r],
+          completions,
+          from,
+          to,
+        });
+      }
+      const restDays: number[] = [];
+      const upTo = to >= from ? Number(to.slice(8)) : 0;
+      for (let d = 1; d <= upTo; d += 1) {
+        if (scheduledStepIds(routines, addDays(from, d - 1)).length === 0) {
+          restDays.push(d);
+        }
+      }
+      return {
+        all: computeRhythm({ routines, completions, from, to }),
+        byGroup,
+        restDays,
+      };
+    },
+    [routines, completions, today],
+  );
+
   const value = useMemo<RoutineStore>(
     () => ({
       tasks,
@@ -362,6 +404,7 @@ export function RoutineDataProvider({ children }: { children: ReactNode }) {
       completeOnboarding,
       stepDetail,
       monthStatus,
+      monthRhythm,
     }),
     [
       tasks,
@@ -379,6 +422,7 @@ export function RoutineDataProvider({ children }: { children: ReactNode }) {
       completeOnboarding,
       stepDetail,
       monthStatus,
+      monthRhythm,
     ],
   );
 

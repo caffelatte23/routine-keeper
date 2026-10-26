@@ -45,6 +45,14 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
+            name='settings'
+            options={{
+              presentation: 'formSheet',
+              sheetGrabberVisible: true,
+              sheetAllowedDetents: [0.92],
+            }}
+          />
+          <Stack.Screen
             name='play/[group]'
             options={{ presentation: 'fullScreenModal' }}
           />

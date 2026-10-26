@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { CalendarBlank, GearSix, Repeat, Sun } from 'phosphor-react-native';
+import { ChartBar, Repeat, Sun } from 'phosphor-react-native';
 
 import { useAppTheme } from '@/theme/colors';
 import { fonts } from '@/theme/typography';
@@ -11,8 +11,8 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: colors.acc,
-        tabBarInactiveTintColor: colors.faint,
+        tabBarActiveTintColor: colors.text,
+        tabBarInactiveTintColor: colors.muted,
         tabBarStyle: {
           backgroundColor: colors.bg,
           borderTopWidth: 1,
@@ -49,24 +49,11 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name='calendar'
+        name='review'
         options={{
-          title: 'カレンダー',
+          title: 'ふりかえり',
           tabBarIcon: ({ color, focused }) => (
-            <CalendarBlank
-              size={22}
-              weight={focused ? 'fill' : 'regular'}
-              color={color as string}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name='settings'
-        options={{
-          title: '設定',
-          tabBarIcon: ({ color, focused }) => (
-            <GearSix
+            <ChartBar
               size={22}
               weight={focused ? 'fill' : 'regular'}
               color={color as string}
