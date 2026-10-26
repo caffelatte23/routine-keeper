@@ -4,7 +4,6 @@ import {
   buildMonthStatus,
   buildTodayTasks,
   completion as completionTable,
-  computeGlobalStreak,
   computeRhythm,
   daysInMonth,
   DEFAULT_SETTINGS,
@@ -110,7 +109,6 @@ export interface StepDetail {
 interface RoutineStore {
   tasks: Task[];
   doneCount: number;
-  streakDays: number;
   celebrating: boolean;
   encouragement: string;
   heatPattern: number[];
@@ -377,7 +375,6 @@ export function RoutineDataProvider({ children }: { children: ReactNode }) {
     () => ({
       tasks,
       doneCount,
-      streakDays: computeGlobalStreak(routines, completions, today),
       celebrating,
       encouragement:
         ENCOURAGEMENTS[Math.min(doneCount, ENCOURAGEMENTS.length - 1)],

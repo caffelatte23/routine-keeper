@@ -60,7 +60,6 @@ export default function TodayScreen() {
   const {
     tasks,
     doneCount,
-    streakDays,
     rhythm,
     celebrating,
     userName,
@@ -402,10 +401,7 @@ export default function TodayScreen() {
       </ScrollView>
 
       {celebrating ? (
-        <CelebrationOverlay
-          streakDays={streakDays}
-          onDismiss={dismissCelebration}
-        />
+        <CelebrationOverlay onDismiss={dismissCelebration} />
       ) : null}
     </View>
   );
