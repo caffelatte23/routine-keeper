@@ -128,6 +128,7 @@ export default function OnboardingScreen() {
                     style={{
                       fontFamily: fonts.jpMedium,
                       fontSize: 16,
+                      lineHeight: 23,
                       color: colors.text,
                     }}
                   >
@@ -137,6 +138,7 @@ export default function OnboardingScreen() {
                     style={{
                       fontFamily: fonts.jp,
                       fontSize: 13,
+                      lineHeight: 19,
                       color: colors.muted,
                       marginTop: 3,
                     }}
@@ -180,6 +182,7 @@ export default function OnboardingScreen() {
             style={{
               fontFamily: fonts.jpMedium,
               fontSize: 16,
+              lineHeight: 23,
               color: colors.onAcc,
             }}
           >
@@ -190,6 +193,7 @@ export default function OnboardingScreen() {
           style={{
             fontFamily: fonts.jp,
             fontSize: 13,
+            lineHeight: 19,
             color: colors.muted,
             textAlign: 'center',
             marginTop: 16,

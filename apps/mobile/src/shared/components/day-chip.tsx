@@ -42,6 +42,7 @@ export function DayChips({
                 style={{
                   fontFamily: fonts.jpMedium,
                   fontSize: 14,
+                  lineHeight: 20,
                   color: on ? colors.bg : colors.muted,
                 }}
               >

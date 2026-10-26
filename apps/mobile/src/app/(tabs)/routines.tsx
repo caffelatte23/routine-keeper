@@ -16,101 +16,106 @@ export default function RoutinesScreen() {
   const insets = useSafeAreaInsets();
 
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: colors.bg }}
-      contentInsetAdjustmentBehavior='automatic'
-      contentContainerStyle={{
-        paddingHorizontal: 20,
-        paddingTop: insets.top + 14,
-        paddingBottom: 32,
-      }}
+    <View
+      style={{ flex: 1, backgroundColor: colors.bg, paddingTop: insets.top }}
     >
-      <Text
-        style={{
-          fontFamily: fonts.jpBold,
-          fontSize: 26,
-          color: colors.text,
-          marginBottom: 12,
+      <ScrollView
+        style={{ flex: 1, backgroundColor: colors.bg }}
+        contentInsetAdjustmentBehavior='never'
+        contentContainerStyle={{
+          paddingHorizontal: 20,
+          paddingTop: 14,
+          paddingBottom: 32,
         }}
       >
-        ルーティン
-      </Text>
+        <Text
+          style={{
+            fontFamily: fonts.jpBold,
+            fontSize: 26,
+            lineHeight: 32,
+            color: colors.text,
+            marginBottom: 12,
+          }}
+        >
+          ルーティン
+        </Text>
 
-      {GROUP_ORDER.map((group) => {
-        const routine = routines[group];
-        if (!routine) {
-          return null;
-        }
-        const Icon = PHASE_ICON[group];
-        const pc = colors.phase[group];
-        const mins = routine.steps.reduce((n, s) => n + parseMins(s.mins), 0);
-        return (
-          <Link
-            key={group}
-            href={{ pathname: '/routine/[id]', params: { id: group } }}
-            asChild
-          >
-            <Pressable
-              accessibilityRole='button'
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 14,
-                minHeight: 76,
-                paddingVertical: 12,
-                borderBottomWidth: 1,
-                borderBottomColor: colors.line,
-              }}
+        {GROUP_ORDER.map((group) => {
+          const routine = routines[group];
+          if (!routine) {
+            return null;
+          }
+          const Icon = PHASE_ICON[group];
+          const pc = colors.phase[group];
+          const mins = routine.steps.reduce((n, s) => n + parseMins(s.mins), 0);
+          return (
+            <Link
+              key={group}
+              href={{ pathname: '/routine/[id]', params: { id: group } }}
+              asChild
             >
-              <View
+              <Pressable
+                accessibilityRole='button'
                 style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 14,
-                  backgroundColor: pc.tint,
+                  flexDirection: 'row',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  gap: 14,
+                  minHeight: 76,
+                  paddingVertical: 12,
+                  borderBottomWidth: 1,
+                  borderBottomColor: colors.line,
                 }}
               >
-                <Icon size={22} color={pc.ink} />
-              </View>
-              <View style={{ flex: 1, gap: 2 }}>
-                <Text
+                <View
                   style={{
-                    fontFamily: fonts.jpMedium,
-                    fontSize: 16,
-                    lineHeight: 22,
-                    color: colors.text,
+                    width: 44,
+                    height: 44,
+                    borderRadius: 14,
+                    backgroundColor: pc.tint,
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
-                  {group}のルーティン
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: fonts.jp,
-                    fontSize: 12.5,
-                    lineHeight: 18,
-                    color: colors.muted,
-                  }}
-                >
-                  {routine.window}　{daysSummary(routine.days)}
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: fonts.jp,
-                    fontSize: 12.5,
-                    lineHeight: 18,
-                    color: colors.muted,
-                  }}
-                >
-                  {routine.steps.length}ステップ　約{mins}分
-                </Text>
-              </View>
-              <CaretRight size={16} color={colors.muted} />
-            </Pressable>
-          </Link>
-        );
-      })}
-    </ScrollView>
+                  <Icon size={22} color={pc.ink} />
+                </View>
+                <View style={{ flex: 1, gap: 2 }}>
+                  <Text
+                    style={{
+                      fontFamily: fonts.jpMedium,
+                      fontSize: 16,
+                      lineHeight: 22,
+                      color: colors.text,
+                    }}
+                  >
+                    {group}のルーティン
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: fonts.jp,
+                      fontSize: 12.5,
+                      lineHeight: 18,
+                      color: colors.muted,
+                    }}
+                  >
+                    {routine.window}　{daysSummary(routine.days)}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: fonts.jp,
+                      fontSize: 12.5,
+                      lineHeight: 18,
+                      color: colors.muted,
+                    }}
+                  >
+                    {routine.steps.length}ステップ　約{mins}分
+                  </Text>
+                </View>
+                <CaretRight size={16} color={colors.muted} />
+              </Pressable>
+            </Link>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 }

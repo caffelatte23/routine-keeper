@@ -19,6 +19,7 @@ export function StatTile({
         style={{
           fontFamily: fonts.figure,
           fontSize: 30,
+          lineHeight: 38,
           color: accent ? colors.acc : colors.text,
         }}
       >
@@ -28,6 +29,7 @@ export function StatTile({
         style={{
           fontFamily: fonts.jp,
           fontSize: 11.5,
+          lineHeight: 17,
           color: colors.muted,
           marginTop: 3,
         }}

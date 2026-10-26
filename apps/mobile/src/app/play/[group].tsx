@@ -158,6 +158,7 @@ export default function PlayScreen() {
           style={{
             fontFamily: fonts.jpMedium,
             fontSize: 14,
+            lineHeight: 20,
             color: colors.text,
           }}
         >
@@ -169,6 +170,7 @@ export default function PlayScreen() {
             textAlign: 'right',
             fontFamily: fonts.figureBold,
             fontSize: 15,
+            lineHeight: 22,
             color: colors.text,
           }}
         >
@@ -228,6 +230,7 @@ export default function PlayScreen() {
                 style={{
                   fontFamily: fonts.jpBold,
                   fontSize: 30,
+                  lineHeight: 38,
                   color: colors.text,
                   textAlign: 'center',
                 }}
@@ -239,6 +242,7 @@ export default function PlayScreen() {
                   style={{
                     fontFamily: fonts.jp,
                     fontSize: 15,
+                    lineHeight: 22,
                     color: pc.ink,
                     textAlign: 'center',
                   }}
@@ -287,6 +291,7 @@ export default function PlayScreen() {
                   style={{
                     fontFamily: fonts.figureBold,
                     fontSize: 60,
+                    lineHeight: 75,
                     color: colors.text,
                     fontVariant: ['tabular-nums'],
                   }}
@@ -294,7 +299,12 @@ export default function PlayScreen() {
                   {formatTimer(left)}
                 </Text>
                 <Text
-                  style={{ fontFamily: fonts.jp, fontSize: 13, color: pc.ink }}
+                  style={{
+                    fontFamily: fonts.jp,
+                    fontSize: 13,
+                    lineHeight: 19,
+                    color: pc.ink,
+                  }}
                 >
                   {left === 0
                     ? '時間です。終わったら完了を'
@@ -319,6 +329,7 @@ export default function PlayScreen() {
                 style={{
                   fontFamily: fonts.jp,
                   fontSize: 13,
+                  lineHeight: 19,
                   color: colors.text,
                 }}
               >
@@ -346,6 +357,7 @@ export default function PlayScreen() {
                 style={{
                   fontFamily: fonts.jp,
                   fontSize: 11,
+                  lineHeight: 16,
                   color: colors.text,
                 }}
               >
@@ -381,6 +393,7 @@ export default function PlayScreen() {
                 style={{
                   fontFamily: fonts.figureBold,
                   fontSize: 17,
+                  lineHeight: 25,
                   color: colors.text,
                 }}
               >
@@ -390,6 +403,7 @@ export default function PlayScreen() {
                 style={{
                   fontFamily: fonts.jp,
                   fontSize: 11,
+                  lineHeight: 16,
                   color: colors.text,
                 }}
               >
@@ -409,7 +423,14 @@ export default function PlayScreen() {
               backgroundColor: pc.track,
             }}
           >
-            <Text style={{ fontFamily: fonts.jp, fontSize: 12, color: pc.ink }}>
+            <Text
+              style={{
+                fontFamily: fonts.jp,
+                fontSize: 12,
+                lineHeight: 17,
+                color: pc.ink,
+              }}
+            >
               つぎ
             </Text>
             <Text
@@ -418,12 +439,20 @@ export default function PlayScreen() {
                 flex: 1,
                 fontFamily: fonts.jpMedium,
                 fontSize: 15,
+                lineHeight: 22,
                 color: colors.text,
               }}
             >
               {nextStep?.name ?? 'おしまい'}
             </Text>
-            <Text style={{ fontFamily: fonts.jp, fontSize: 13, color: pc.ink }}>
+            <Text
+              style={{
+                fontFamily: fonts.jp,
+                fontSize: 13,
+                lineHeight: 19,
+                color: pc.ink,
+              }}
+            >
               {nextStep?.mins ?? ''}
             </Text>
           </View>
@@ -455,12 +484,20 @@ function FinishView({
         style={{
           fontFamily: fonts.figureBold,
           fontSize: 28,
+          lineHeight: 35,
           color: colors.text,
         }}
       >
         {value}
       </Text>
-      <Text style={{ fontFamily: fonts.jp, fontSize: 13, color: colors.muted }}>
+      <Text
+        style={{
+          fontFamily: fonts.jp,
+          fontSize: 13,
+          lineHeight: 19,
+          color: colors.muted,
+        }}
+      >
         {label}
       </Text>
     </View>
@@ -485,6 +522,7 @@ function FinishView({
           style={{
             fontFamily: fonts.jpBold,
             fontSize: 24,
+            lineHeight: 30,
             color: colors.text,
             textAlign: 'center',
           }}
@@ -503,6 +541,7 @@ function FinishView({
           style={{
             fontFamily: fonts.jpMedium,
             fontSize: 15,
+            lineHeight: 22,
             color: colors.text,
           }}
         >
@@ -534,6 +573,7 @@ function FinishView({
                   style={{
                     fontFamily: on ? fonts.jpMedium : fonts.jp,
                     fontSize: 15,
+                    lineHeight: 22,
                     color: colors.text,
                   }}
                 >
@@ -560,7 +600,12 @@ function FinishView({
         }}
       >
         <Text
-          style={{ fontFamily: fonts.jpMedium, fontSize: 16, color: colors.bg }}
+          style={{
+            fontFamily: fonts.jpMedium,
+            fontSize: 16,
+            lineHeight: 23,
+            color: colors.bg,
+          }}
         >
           今日の画面へ
         </Text>

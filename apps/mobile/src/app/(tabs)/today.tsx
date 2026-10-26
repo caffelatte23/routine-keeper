@@ -93,12 +93,14 @@ export default function TodayScreen() {
   });
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.bg }}>
+    <View
+      style={{ flex: 1, backgroundColor: colors.bg, paddingTop: insets.top }}
+    >
       <ScrollView
-        contentInsetAdjustmentBehavior='automatic'
+        contentInsetAdjustmentBehavior='never'
         contentContainerStyle={{
           paddingHorizontal: 20,
-          paddingTop: insets.top + 14,
+          paddingTop: 14,
           paddingBottom: 32,
           gap: 24,
         }}
@@ -115,6 +117,7 @@ export default function TodayScreen() {
               style={{
                 fontFamily: fonts.jp,
                 fontSize: 13,
+                lineHeight: 19,
                 color: colors.muted,
               }}
             >
@@ -124,6 +127,7 @@ export default function TodayScreen() {
               style={{
                 fontFamily: fonts.jpBold,
                 fontSize: 26,
+                lineHeight: 32,
                 color: colors.text,
                 marginTop: 4,
               }}
@@ -180,6 +184,7 @@ export default function TodayScreen() {
               style={{
                 fontFamily: fonts.jpBold,
                 fontSize: 20,
+                lineHeight: 29,
                 color: colors.text,
               }}
             >
@@ -188,7 +193,12 @@ export default function TodayScreen() {
                 : '今日はおやすみの日'}
             </Text>
             <Text
-              style={{ fontFamily: fonts.jp, fontSize: 14, color: colors.t2 }}
+              style={{
+                fontFamily: fonts.jp,
+                fontSize: 14,
+                lineHeight: 20,
+                color: colors.t2,
+              }}
             >
               {tasks.length > 0
                 ? 'ゆっくり過ごしてください。'
@@ -203,6 +213,7 @@ export default function TodayScreen() {
               style={{
                 fontFamily: fonts.jpMedium,
                 fontSize: 14,
+                lineHeight: 20,
                 color: colors.muted,
                 marginBottom: 4,
               }}
@@ -302,6 +313,7 @@ export default function TodayScreen() {
               style={{
                 fontFamily: fonts.jpMedium,
                 fontSize: 14,
+                lineHeight: 20,
                 color: colors.muted,
               }}
             >
@@ -311,6 +323,7 @@ export default function TodayScreen() {
               style={{
                 fontFamily: fonts.jp,
                 fontSize: 12,
+                lineHeight: 17,
                 color: colors.muted,
               }}
             >
@@ -351,6 +364,7 @@ export default function TodayScreen() {
                       style={{
                         fontFamily: fonts.figureBold,
                         fontSize: 11,
+                        lineHeight: 16,
                         color: colors.text,
                       }}
                     >
@@ -363,6 +377,7 @@ export default function TodayScreen() {
                       style={{
                         fontFamily: fonts.figureBold,
                         fontSize: 13,
+                        lineHeight: 19,
                         color: colors.accStrong,
                       }}
                     >
@@ -374,6 +389,7 @@ export default function TodayScreen() {
                   style={{
                     fontFamily: fonts.jp,
                     fontSize: 11,
+                    lineHeight: 16,
                     color: colors.muted,
                   }}
                 >
@@ -428,14 +444,24 @@ function NowHero({
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
         <PhaseIcon size={16} color={pc.ink} />
         <Text
-          style={{ fontFamily: fonts.jpMedium, fontSize: 13, color: pc.ink }}
+          style={{
+            fontFamily: fonts.jpMedium,
+            fontSize: 13,
+            lineHeight: 19,
+            color: pc.ink,
+          }}
         >
           {live ? 'いまの時間' : 'つぎのルーティン'}
         </Text>
       </View>
       <View>
         <Text
-          style={{ fontFamily: fonts.jpBold, fontSize: 22, color: colors.text }}
+          style={{
+            fontFamily: fonts.jpBold,
+            fontSize: 22,
+            lineHeight: 32,
+            color: colors.text,
+          }}
         >
           {group}のルーティン
         </Text>
@@ -443,6 +469,7 @@ function NowHero({
           style={{
             fontFamily: fonts.jp,
             fontSize: 13,
+            lineHeight: 19,
             color: pc.ink,
             marginTop: 2,
           }}
@@ -477,12 +504,20 @@ function NowHero({
             flexShrink: 1,
             fontFamily: fonts.jp,
             fontSize: 14,
+            lineHeight: 20,
             color: colors.text,
           }}
         >
           つぎ　<Text style={{ fontFamily: fonts.jpMedium }}>{next?.name}</Text>
         </Text>
-        <Text style={{ fontFamily: fonts.jp, fontSize: 13, color: pc.ink }}>
+        <Text
+          style={{
+            fontFamily: fonts.jp,
+            fontSize: 13,
+            lineHeight: 19,
+            color: pc.ink,
+          }}
+        >
           {done}/{steps.length} 完了　のこり約{left}分
         </Text>
       </View>
@@ -504,6 +539,7 @@ function NowHero({
             style={{
               fontFamily: fonts.jpMedium,
               fontSize: 16,
+              lineHeight: 23,
               color: colors.bg,
             }}
           >

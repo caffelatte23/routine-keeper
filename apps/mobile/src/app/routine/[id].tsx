@@ -116,13 +116,19 @@ export default function RoutineEditorScreen() {
             style={{
               fontFamily: fonts.jpBold,
               fontSize: 24,
+              lineHeight: 30,
               color: colors.text,
             }}
           >
             {group}のルーティン
           </Text>
           <Text
-            style={{ fontFamily: fonts.jp, fontSize: 13, color: colors.muted }}
+            style={{
+              fontFamily: fonts.jp,
+              fontSize: 13,
+              lineHeight: 19,
+              color: colors.muted,
+            }}
           >
             {routine.window}
           </Text>
@@ -144,6 +150,7 @@ export default function RoutineEditorScreen() {
             style={{
               fontFamily: fonts.jpMedium,
               fontSize: 14,
+              lineHeight: 20,
               color: colors.bg,
             }}
           >
@@ -157,6 +164,7 @@ export default function RoutineEditorScreen() {
           style={{
             fontFamily: fonts.jpMedium,
             fontSize: 14,
+            lineHeight: 20,
             color: colors.muted,
           }}
         >
@@ -178,13 +186,19 @@ export default function RoutineEditorScreen() {
             style={{
               fontFamily: fonts.jpMedium,
               fontSize: 14,
+              lineHeight: 20,
               color: colors.muted,
             }}
           >
             ステップ
           </Text>
           <Text
-            style={{ fontFamily: fonts.jp, fontSize: 13, color: colors.muted }}
+            style={{
+              fontFamily: fonts.jp,
+              fontSize: 13,
+              lineHeight: 19,
+              color: colors.muted,
+            }}
           >
             合計 約
             <Text style={{ fontFamily: fonts.figureBold, color: colors.text }}>
@@ -218,6 +232,7 @@ export default function RoutineEditorScreen() {
                 minHeight: 44,
                 fontFamily: fonts.jp,
                 fontSize: 15,
+                lineHeight: 22,
                 color: colors.text,
               }}
             />
@@ -238,11 +253,16 @@ export default function RoutineEditorScreen() {
                 textAlign: 'center',
                 fontFamily: fonts.figureBold,
                 fontSize: 14,
+                lineHeight: 20,
                 color: colors.text,
               }}
             >
               {parseMins(step.mins)}
-              <Text style={{ fontFamily: fonts.jp, fontSize: 12 }}>分</Text>
+              <Text
+                style={{ fontFamily: fonts.jp, fontSize: 12, lineHeight: 17 }}
+              >
+                分
+              </Text>
             </Text>
             <Pressable
               onPress={() => {
@@ -288,6 +308,7 @@ export default function RoutineEditorScreen() {
             style={{
               fontFamily: fonts.jpMedium,
               fontSize: 15,
+              lineHeight: 22,
               color: colors.acc,
             }}
           >
