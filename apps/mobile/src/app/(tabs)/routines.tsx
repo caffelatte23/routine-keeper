@@ -2,6 +2,7 @@ import { GROUP_ORDER } from '@routine-keeper/core';
 import { Link } from 'expo-router';
 import { CaretRight } from 'phosphor-react-native';
 import { Pressable, ScrollView, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { daysSummary, parseMins } from '@/lib/day';
 import { PHASE_ICON } from '@/shared/components/phase-icon';
@@ -12,6 +13,7 @@ import { fonts } from '@/theme/typography';
 export default function RoutinesScreen() {
   const { colors } = useAppTheme();
   const routines = useRoutines();
+  const insets = useSafeAreaInsets();
 
   return (
     <ScrollView
@@ -19,7 +21,7 @@ export default function RoutinesScreen() {
       contentInsetAdjustmentBehavior='automatic'
       contentContainerStyle={{
         paddingHorizontal: 20,
-        paddingTop: 14,
+        paddingTop: insets.top + 14,
         paddingBottom: 32,
       }}
     >

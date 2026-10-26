@@ -8,6 +8,7 @@ import {
 import { CaretLeft, CaretRight } from 'phosphor-react-native';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useRoutineStore } from '@/shared/stores/routine-store';
 import { useAppTheme, type AppPalette } from '@/theme/colors';
@@ -73,6 +74,7 @@ export default function ReviewScreen() {
   const { colors } = useAppTheme();
   const { monthStatus, monthRhythm } = useRoutineStore();
   const [offset, setOffset] = useState(0);
+  const insets = useSafeAreaInsets();
 
   const today = todayIso(systemClock);
   const base = new Date(
@@ -132,7 +134,7 @@ export default function ReviewScreen() {
       contentInsetAdjustmentBehavior='automatic'
       contentContainerStyle={{
         paddingHorizontal: 20,
-        paddingTop: 14,
+        paddingTop: insets.top + 14,
         paddingBottom: 32,
         gap: 24,
       }}
